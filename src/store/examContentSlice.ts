@@ -12,7 +12,7 @@ const examContentSlice = createSlice({
     reducers: {
         addMultipleChoiceSection(state, action: PayloadAction<string>) {
             state.sections.push({
-            id: action.payload,
+                id: action.payload,
                 content: {
                     type: SectionType.MultipleChoice,
                     instruction: "Select the correct option",
@@ -41,6 +41,18 @@ const examContentSlice = createSlice({
                 },
             });
         },
+        updateSectionInstruction(
+            state,
+            action: PayloadAction<{ id: string; instruction: string }>,
+        ) {
+            const section = state.sections.find(
+                (item) => item.id === action.payload.id,
+            );
+
+            if (section) {
+                section.content.instruction = action.payload.instruction;
+            }
+        },
         removeSection(state, action: PayloadAction<string>) {
             state.sections = state.sections.filter(
                 (section) => section.id !== action.payload,
@@ -54,5 +66,6 @@ export const {
     addPhoneticMultipleChoiceSection,
     addReadingSection,
     removeSection,
+    updateSectionInstruction,
 } = examContentSlice.actions;
 export default examContentSlice.reducer;

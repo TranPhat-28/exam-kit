@@ -31,6 +31,16 @@ const examContentSlice = createSlice({
                 },
             });
         },
+        addPhoneticMultipleChoiceSection(state, action: PayloadAction<string>) {
+            state.sections.push({
+                id: action.payload,
+                content: {
+                    type: SectionType.PhoneticMultipleChoice,
+                    instruction: "Select the correct option",
+                    questions: [],
+                },
+            });
+        },
         removeSection(state, action: PayloadAction<string>) {
             state.sections = state.sections.filter(
                 (section) => section.id !== action.payload,
@@ -41,6 +51,7 @@ const examContentSlice = createSlice({
 
 export const {
     addMultipleChoiceSection,
+    addPhoneticMultipleChoiceSection,
     addReadingSection,
     removeSection,
 } = examContentSlice.actions;

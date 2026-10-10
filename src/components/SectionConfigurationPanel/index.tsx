@@ -3,6 +3,12 @@ import { SectionType } from "../../types/SectionType";
 import { removeSection } from "../../store/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
 
+const sectionTypeLabels: Record<SectionType, string> = {
+    [SectionType.MultipleChoice]: "Multiple choice",
+    [SectionType.Reading]: "Reading",
+    [SectionType.PhoneticMultipleChoice]: "Phonetic multiple choice",
+};
+
 export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
     const dispatch = useAppDispatch();
 
@@ -13,9 +19,7 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                     Part: {data.content.instruction}
                 </h4>
                 <span className="badge badge-outline badge-info badge-sm">
-                    {data.content.type === SectionType.Reading
-                        ? "Reading"
-                        : "Multiple choice"}
+                    {sectionTypeLabels[data.content.type]}
                 </span>
             </div>
             <button

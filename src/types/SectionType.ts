@@ -1,8 +1,12 @@
-import type { MultipleChoiceQuestion } from "./QuestionType";
+import type {
+    MultipleChoiceQuestion,
+    PhoneticMultipleChoiceQuestion,
+} from "./QuestionType";
 
 export const SectionType = {
     MultipleChoice: "multiple-choice",
     Reading: "reading",
+    PhoneticMultipleChoice: "phonetic-multiple-choice",
 } as const;
 
 export type SectionType = (typeof SectionType)[keyof typeof SectionType];
@@ -20,4 +24,13 @@ export interface ReadingSection {
     questions: MultipleChoiceQuestion[];
 }
 
-export type SectionContent = MultipleChoiceSection | ReadingSection;
+export interface PhoneticMultipleChoiceSection {
+    type: typeof SectionType.PhoneticMultipleChoice;
+    instruction: string;
+    questions: PhoneticMultipleChoiceQuestion[];
+}
+
+export type SectionContent =
+    | MultipleChoiceSection
+    | ReadingSection
+    | PhoneticMultipleChoiceSection;

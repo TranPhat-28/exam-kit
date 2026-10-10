@@ -2,16 +2,39 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
     addMultipleChoiceSection,
+    addPhoneticMultipleChoiceSection,
     addReadingSection,
 } from "../../store/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { SectionType } from "../../types/SectionType";
+
+const sectionTypeLabels: Record<SectionType, string> = {
+    [SectionType.MultipleChoice]: "Trắc nghiệm",
+    [SectionType.Reading]: "Đọc hiểu",
+    [SectionType.PhoneticMultipleChoice]: "Trắc nghiệm ngữ âm",
+};
 
 export const AddNewSectionButton = () => {
     const dispatch = useAppDispatch();
     const [sectionType, setSectionType] = useState<SectionType>(
         SectionType.MultipleChoice,
     );
+
+    const addSelectedSection = () => {
+        const id = uuidv4();
+
+        switch (sectionType) {
+            case SectionType.MultipleChoice:
+                dispatch(addMultipleChoiceSection(id));
+                break;
+            case SectionType.Reading:
+                dispatch(addReadingSection(id));
+                break;
+            case SectionType.PhoneticMultipleChoice:
+                dispatch(addPhoneticMultipleChoiceSection(id));
+                break;
+        }
+    };
 
     return (
         <div className="flex items-center gap-4 p-4 shadow bg-base-200 rounded">
@@ -26,19 +49,17 @@ export const AddNewSectionButton = () => {
                 }
                 aria-label="Loại phần"
             >
-                <option value={SectionType.MultipleChoice}>Trắc nghiệm</option>
-                <option value={SectionType.Reading}>Đọc hiểu</option>
+                <option value={SectionType.MultipleChoice}>
+                    {sectionTypeLabels[SectionType.MultipleChoice]}
+                </option>
+                <option value={SectionType.PhoneticMultipleChoice}>
+                    {sectionTypeLabels[SectionType.PhoneticMultipleChoice]}
+                </option>
+                <option value={SectionType.Reading}>
+                    {sectionTypeLabels[SectionType.Reading]}
+                </option>
             </select>
-            <button
-                className="btn btn-outline"
-                onClick={() =>
-                    dispatch(
-                        sectionType === SectionType.Reading
-                            ? addReadingSection(uuidv4())
-                            : addMultipleChoiceSection(uuidv4()),
-                    )
-                }
-            >
+            <button className="btn btn-outline" onClick={addSelectedSection}>
                 Thêm phần mới
             </button>
         </div>

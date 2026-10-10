@@ -9,7 +9,7 @@ import { useAppDispatch } from "../../store/hooks";
 
 const sectionTypeLabels: Record<SectionType, string> = {
     [SectionType.MultipleChoice]: "Multiple choice",
-    [SectionType.Reading]: "Reading",
+    [SectionType.ReadingComprehension]: "Reading comprehension",
     [SectionType.PhoneticMultipleChoice]: "Phonetic multiple choice",
 };
 
@@ -18,7 +18,7 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
     const [instruction, setInstruction] = useState(data.content.instruction);
 
     return (
-        <div className="p-4 border border-base-300 rounded flex gap-2">
+        <div className="p-4 border border-info rounded flex gap-2">
             <div className="flex-1">
                 <label
                     className="mb-2 block text-sm font-semibold"

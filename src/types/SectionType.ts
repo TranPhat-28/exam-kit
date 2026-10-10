@@ -5,7 +5,7 @@ import type {
 
 export const SectionType = {
     MultipleChoice: "multiple-choice",
-    Reading: "reading",
+    ReadingComprehension: "reading-comprehension",
     PhoneticMultipleChoice: "phonetic-multiple-choice",
 } as const;
 
@@ -17,8 +17,8 @@ export interface MultipleChoiceSection {
     questions: MultipleChoiceQuestion[];
 }
 
-export interface ReadingSection {
-    type: typeof SectionType.Reading;
+export interface ReadingComprehensionSection {
+    type: typeof SectionType.ReadingComprehension;
     instruction: string;
     paragraph: string;
     questions: MultipleChoiceQuestion[];
@@ -32,5 +32,5 @@ export interface PhoneticMultipleChoiceSection {
 
 export type SectionContent =
     | MultipleChoiceSection
-    | ReadingSection
+    | ReadingComprehensionSection
     | PhoneticMultipleChoiceSection;

@@ -20,11 +20,11 @@ const examContentSlice = createSlice({
                 },
             });
         },
-        addReadingSection(state, action: PayloadAction<string>) {
+        addReadingComprehensionSection(state, action: PayloadAction<string>) {
             state.sections.push({
                 id: action.payload,
                 content: {
-                    type: SectionType.Reading,
+                    type: SectionType.ReadingComprehension,
                     instruction: "Select the correct option",
                     paragraph: "",
                     questions: [],
@@ -64,7 +64,7 @@ const examContentSlice = createSlice({
 export const {
     addMultipleChoiceSection,
     addPhoneticMultipleChoiceSection,
-    addReadingSection,
+    addReadingComprehensionSection,
     removeSection,
     updateSectionInstruction,
 } = examContentSlice.actions;

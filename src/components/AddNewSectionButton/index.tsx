@@ -3,14 +3,14 @@ import { v4 as uuidv4 } from "uuid";
 import {
     addMultipleChoiceSection,
     addPhoneticMultipleChoiceSection,
-    addReadingSection,
+    addReadingComprehensionSection,
 } from "../../store/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { SectionType } from "../../types/SectionType";
 
 const sectionTypeLabels: Record<SectionType, string> = {
     [SectionType.MultipleChoice]: "Trắc nghiệm",
-    [SectionType.Reading]: "Đọc hiểu",
+    [SectionType.ReadingComprehension]: "Đọc hiểu trả lời",
     [SectionType.PhoneticMultipleChoice]: "Trắc nghiệm ngữ âm",
 };
 
@@ -27,8 +27,8 @@ export const AddNewSectionButton = () => {
             case SectionType.MultipleChoice:
                 dispatch(addMultipleChoiceSection(id));
                 break;
-            case SectionType.Reading:
-                dispatch(addReadingSection(id));
+            case SectionType.ReadingComprehension:
+                dispatch(addReadingComprehensionSection(id));
                 break;
             case SectionType.PhoneticMultipleChoice:
                 dispatch(addPhoneticMultipleChoiceSection(id));
@@ -55,8 +55,8 @@ export const AddNewSectionButton = () => {
                 <option value={SectionType.PhoneticMultipleChoice}>
                     {sectionTypeLabels[SectionType.PhoneticMultipleChoice]}
                 </option>
-                <option value={SectionType.Reading}>
-                    {sectionTypeLabels[SectionType.Reading]}
+                <option value={SectionType.ReadingComprehension}>
+                    {sectionTypeLabels[SectionType.ReadingComprehension]}
                 </option>
             </select>
             <button className="btn btn-outline" onClick={addSelectedSection}>

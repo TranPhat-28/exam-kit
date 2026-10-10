@@ -1,32 +1,47 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ExamContentState } from "./types";
+import { SectionType } from "../types/SectionType";
 
 const initialState: ExamContentState = {
     sections: [],
-    nextSectionId: 1,
 };
 
 const examContentSlice = createSlice({
     name: "ExamContent",
     initialState,
     reducers: {
-        addSection(state) {
+        addMultipleChoiceSection(state, action: PayloadAction<string>) {
             state.sections.push({
-                sectionNumber: state.nextSectionId,
+            id: action.payload,
                 content: {
-                    instruction: "",
+                    type: SectionType.MultipleChoice,
+                    instruction: "Select the correct option",
                     questions: [],
                 },
             });
-            state.nextSectionId += 1;
         },
-        removeSection(state, action: PayloadAction<number>) {
+        addReadingSection(state, action: PayloadAction<string>) {
+            state.sections.push({
+                id: action.payload,
+                content: {
+                    type: SectionType.Reading,
+                    instruction: "Select the correct option",
+                    paragraph: "",
+                    questions: [],
+                },
+            });
+        },
+        removeSection(state, action: PayloadAction<string>) {
             state.sections = state.sections.filter(
-                (section) => section.sectionNumber !== action.payload,
+                (section) => section.id !== action.payload,
             );
         },
     },
 });
 
-export const { addSection, removeSection } = examContentSlice.actions;
+export const {
+    addMultipleChoiceSection,
+    addReadingSection,
+    removeSection,
+} = examContentSlice.actions;
 export default examContentSlice.reducer;

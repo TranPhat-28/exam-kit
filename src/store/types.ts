@@ -1,11 +1,10 @@
-import type { SectionType } from "../types/SectionType";
+import type { SectionContent } from "../types/SectionType";
 
 export interface ExamSection {
-    sectionNumber: number;
-    content: SectionType;
+    id: string;
+    content: SectionContent;
 }
 
 export interface ExamContentState {
     sections: ExamSection[];
-    nextSectionId: number;
 }

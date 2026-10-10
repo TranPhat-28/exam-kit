@@ -1,5 +1,6 @@
 import { Navbar } from "./components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { LoginPage } from "./pages/Login";
 
 function App() {
     return (
@@ -9,7 +10,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<h1>Trang chủ</h1>} />
                     <Route path="/builder" element={<h1>Công cụ đề</h1>} />
-                    <Route path="/login" element={<h1>Đăng nhập</h1>} />
+                    <Route path="/login" element={<LoginPage />} />
                 </Routes>
             </main>
         </BrowserRouter>

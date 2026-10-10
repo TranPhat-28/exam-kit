@@ -1,3 +1,4 @@
+import { SectionConfigurationPanel } from "../../../../components/SectionConfigurationPanel";
 import { addSection } from "../../../../store/examContentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
@@ -11,12 +12,10 @@ export const ContentConfiguration = () => {
             {sections.length > 0 && (
                 <ul className="mb-2 space-y-2">
                     {sections.map((section) => (
-                        <li
-                            className="rounded border border-base-300 p-3"
-                            key={section.id}
-                        >
-                            {section.title}
-                        </li>
+                        <SectionConfigurationPanel
+                            data={section}
+                            key={section.sectionNumber}
+                        />
                     ))}
                 </ul>
             )}

@@ -1,7 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ExamContentState } from "./types";
 import { SectionType } from "../types/SectionType";
-import type { MultipleChoiceQuestion } from "../types/QuestionType";
+import type {
+    MultipleChoiceQuestion,
+    PhoneticMultipleChoiceQuestion,
+} from "../types/QuestionType";
 
 const initialState: ExamContentState = {
     sections: [],
@@ -104,6 +107,37 @@ const examContentSlice = createSlice({
                 section.content.questions.splice(action.payload.questionIndex, 1);
             }
         },
+        addPhoneticMultipleChoiceQuestion(
+            state,
+            action: PayloadAction<{
+                sectionId: string;
+                question: PhoneticMultipleChoiceQuestion;
+            }>,
+        ) {
+            const section = state.sections.find(
+                (item) => item.id === action.payload.sectionId,
+            );
+
+            if (section?.content.type === SectionType.PhoneticMultipleChoice) {
+                section.content.questions.push(action.payload.question);
+            }
+        },
+        removePhoneticMultipleChoiceQuestion(
+            state,
+            action: PayloadAction<{ sectionId: string; questionIndex: number }>,
+        ) {
+            const section = state.sections.find(
+                (item) => item.id === action.payload.sectionId,
+            );
+
+            if (
+                section?.content.type === SectionType.PhoneticMultipleChoice &&
+                action.payload.questionIndex >= 0 &&
+                action.payload.questionIndex < section.content.questions.length
+            ) {
+                section.content.questions.splice(action.payload.questionIndex, 1);
+            }
+        },
         removeSection(state, action: PayloadAction<string>) {
             state.sections = state.sections.filter(
                 (section) => section.id !== action.payload,
@@ -121,5 +155,7 @@ export const {
     updateReadingComprehensionParagraph,
     addMultipleChoiceQuestion,
     removeMultipleChoiceQuestion,
+    addPhoneticMultipleChoiceQuestion,
+    removePhoneticMultipleChoiceQuestion,
 } = examContentSlice.actions;
 export default examContentSlice.reducer;

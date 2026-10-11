@@ -3,8 +3,10 @@ import type { ExamSection } from "../../store/types";
 import { SectionType } from "../../types/SectionType";
 import {
     addMultipleChoiceQuestion,
+    addPhoneticMultipleChoiceQuestion,
     removeSection,
     removeMultipleChoiceQuestion,
+    removePhoneticMultipleChoiceQuestion,
     updateReadingComprehensionParagraph,
     updateSectionInstruction,
 } from "../../store/examContentSlice";
@@ -79,7 +81,27 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                     />
                 );
             case SectionType.PhoneticMultipleChoice:
-                return <PhoneticMultipleChoiceManager />;
+                return (
+                    <PhoneticMultipleChoiceManager
+                        questions={data.content.questions}
+                        onAddQuestion={(question) =>
+                            dispatch(
+                                addPhoneticMultipleChoiceQuestion({
+                                    sectionId: data.id,
+                                    question,
+                                }),
+                            )
+                        }
+                        onRemoveQuestion={(questionIndex) =>
+                            dispatch(
+                                removePhoneticMultipleChoiceQuestion({
+                                    sectionId: data.id,
+                                    questionIndex,
+                                }),
+                            )
+                        }
+                    />
+                );
             default:
                 return null;
         }

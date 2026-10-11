@@ -26,7 +26,27 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
     const renderContentManager = () => {
         switch (data.content.type) {
             case SectionType.MultipleChoice:
-                return <MultipleChoiceManager />;
+                return (
+                    <MultipleChoiceManager
+                        questions={data.content.questions}
+                        onAddQuestion={(question) =>
+                            dispatch(
+                                addMultipleChoiceQuestion({
+                                    sectionId: data.id,
+                                    question,
+                                }),
+                            )
+                        }
+                        onRemoveQuestion={(questionIndex) =>
+                            dispatch(
+                                removeMultipleChoiceQuestion({
+                                    sectionId: data.id,
+                                    questionIndex,
+                                }),
+                            )
+                        }
+                    />
+                );
             case SectionType.ReadingComprehension:
                 return (
                     <ReadingComprehensionManager

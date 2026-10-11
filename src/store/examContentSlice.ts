@@ -26,7 +26,8 @@ const examContentSlice = createSlice({
                 content: {
                     type: SectionType.ReadingComprehension,
                     instruction: "Select the correct option",
-                    paragraph: "",
+                    paragraph:
+                        "Reading every day helps people learn new ideas and understand the world. Even a few minutes with a book can build vocabulary and inspire curiosity.",
                     questions: [],
                 },
             });
@@ -53,6 +54,18 @@ const examContentSlice = createSlice({
                 section.content.instruction = action.payload.instruction;
             }
         },
+        updateReadingComprehensionParagraph(
+            state,
+            action: PayloadAction<{ id: string; paragraph: string }>,
+        ) {
+            const section = state.sections.find(
+                (item) => item.id === action.payload.id,
+            );
+
+            if (section?.content.type === SectionType.ReadingComprehension) {
+                section.content.paragraph = action.payload.paragraph;
+            }
+        },
         removeSection(state, action: PayloadAction<string>) {
             state.sections = state.sections.filter(
                 (section) => section.id !== action.payload,
@@ -67,5 +80,6 @@ export const {
     addReadingComprehensionSection,
     removeSection,
     updateSectionInstruction,
+    updateReadingComprehensionParagraph,
 } = examContentSlice.actions;
 export default examContentSlice.reducer;

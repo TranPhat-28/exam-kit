@@ -3,6 +3,7 @@ import type { ExamSection } from "../../store/types";
 import { SectionType } from "../../types/SectionType";
 import {
     removeSection,
+    updateReadingComprehensionParagraph,
     updateSectionInstruction,
 } from "../../store/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
@@ -25,7 +26,19 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
             case SectionType.MultipleChoice:
                 return <MultipleChoiceManager />;
             case SectionType.ReadingComprehension:
-                return <ReadingComprehensionManager />;
+                return (
+                    <ReadingComprehensionManager
+                        paragraph={data.content.paragraph}
+                        onParagraphChange={(paragraph) =>
+                            dispatch(
+                                updateReadingComprehensionParagraph({
+                                    id: data.id,
+                                    paragraph,
+                                }),
+                            )
+                        }
+                    />
+                );
             case SectionType.PhoneticMultipleChoice:
                 return <PhoneticMultipleChoiceManager />;
             default:

@@ -2,7 +2,9 @@ import { useState } from "react";
 import type { ExamSection } from "../../store/types";
 import { SectionType } from "../../types/SectionType";
 import {
+    addMultipleChoiceQuestion,
     removeSection,
+    removeMultipleChoiceQuestion,
     updateReadingComprehensionParagraph,
     updateSectionInstruction,
 } from "../../store/examContentSlice";
@@ -29,11 +31,28 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                 return (
                     <ReadingComprehensionManager
                         paragraph={data.content.paragraph}
+                        questions={data.content.questions}
                         onParagraphChange={(paragraph) =>
                             dispatch(
                                 updateReadingComprehensionParagraph({
                                     id: data.id,
                                     paragraph,
+                                }),
+                            )
+                        }
+                        onAddQuestion={(question) =>
+                            dispatch(
+                                addMultipleChoiceQuestion({
+                                    sectionId: data.id,
+                                    question,
+                                }),
+                            )
+                        }
+                        onRemoveQuestion={(questionIndex) =>
+                            dispatch(
+                                removeMultipleChoiceQuestion({
+                                    sectionId: data.id,
+                                    questionIndex,
                                 }),
                             )
                         }

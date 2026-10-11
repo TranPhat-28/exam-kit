@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ExamContentState } from "./types";
 import { SectionType } from "../types/SectionType";
+import type { MultipleChoiceQuestion } from "../types/QuestionType";
 
 const initialState: ExamContentState = {
     sections: [],
@@ -66,6 +67,43 @@ const examContentSlice = createSlice({
                 section.content.paragraph = action.payload.paragraph;
             }
         },
+        addMultipleChoiceQuestion(
+            state,
+            action: PayloadAction<{
+                sectionId: string;
+                question: MultipleChoiceQuestion;
+            }>,
+        ) {
+            const section = state.sections.find(
+                (item) => item.id === action.payload.sectionId,
+            );
+
+            if (
+                section &&
+                (section.content.type === SectionType.MultipleChoice ||
+                    section.content.type === SectionType.ReadingComprehension)
+            ) {
+                section.content.questions.push(action.payload.question);
+            }
+        },
+        removeMultipleChoiceQuestion(
+            state,
+            action: PayloadAction<{ sectionId: string; questionIndex: number }>,
+        ) {
+            const section = state.sections.find(
+                (item) => item.id === action.payload.sectionId,
+            );
+
+            if (
+                section &&
+                (section.content.type === SectionType.MultipleChoice ||
+                    section.content.type === SectionType.ReadingComprehension) &&
+                action.payload.questionIndex >= 0 &&
+                action.payload.questionIndex < section.content.questions.length
+            ) {
+                section.content.questions.splice(action.payload.questionIndex, 1);
+            }
+        },
         removeSection(state, action: PayloadAction<string>) {
             state.sections = state.sections.filter(
                 (section) => section.id !== action.payload,
@@ -81,5 +119,7 @@ export const {
     removeSection,
     updateSectionInstruction,
     updateReadingComprehensionParagraph,
+    addMultipleChoiceQuestion,
+    removeMultipleChoiceQuestion,
 } = examContentSlice.actions;
 export default examContentSlice.reducer;

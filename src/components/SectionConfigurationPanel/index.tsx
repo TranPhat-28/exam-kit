@@ -6,6 +6,9 @@ import {
     updateSectionInstruction,
 } from "../../store/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
+import { MultipleChoiceManager } from "../SectionContentManager/MultipleChoiceManager";
+import { ReadingComprehensionManager } from "../SectionContentManager/ReadingComprehensionManager";
+import { PhoneticMultipleChoiceManager } from "../SectionContentManager/PhoneticMultipleChoiceManager";
 
 const sectionTypeLabels: Record<SectionType, string> = {
     [SectionType.MultipleChoice]: "Multiple choice",
@@ -16,6 +19,19 @@ const sectionTypeLabels: Record<SectionType, string> = {
 export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
     const dispatch = useAppDispatch();
     const [instruction, setInstruction] = useState(data.content.instruction);
+
+    const renderContentManager = () => {
+        switch (data.content.type) {
+            case SectionType.MultipleChoice:
+                return <MultipleChoiceManager />;
+            case SectionType.ReadingComprehension:
+                return <ReadingComprehensionManager />;
+            case SectionType.PhoneticMultipleChoice:
+                return <PhoneticMultipleChoiceManager />;
+            default:
+                return null;
+        }
+    };
 
     return (
         <div className="p-4 border border-info rounded flex gap-2">
@@ -37,7 +53,9 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                 <span className="badge badge-outline badge-info badge-sm">
                     {sectionTypeLabels[data.content.type]}
                 </span>
+                <div className="mt-3">{renderContentManager()}</div>
             </div>
+
             <div className="ml-4 flex flex-col gap-2">
                 <button
                     className="btn btn-primary btn-sm"

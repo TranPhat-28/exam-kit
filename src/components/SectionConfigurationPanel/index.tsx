@@ -114,7 +114,7 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                     className="mb-2 block text-sm font-semibold"
                     htmlFor={`section-instruction-${data.id}`}
                 >
-                    Part: {data.content.instruction}
+                    {data.content.instruction}
                 </label>
                 <input
                     className="input input-bordered mb-2 w-full"

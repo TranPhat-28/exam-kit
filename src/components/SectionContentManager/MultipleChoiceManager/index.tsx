@@ -16,7 +16,7 @@ export const MultipleChoiceManager = ({
         <div>
             <AddMultipleChoiceQuestionPanel onAddQuestion={onAddQuestion} />
             {questions.length > 0 && (
-                <ol className="mt-3 space-y-2">
+                <ul className="mt-3 list-none space-y-2">
                     {questions.map((question, questionIndex) => (
                         <li
                             className="flex items-start justify-between gap-3 rounded border p-3"
@@ -24,7 +24,7 @@ export const MultipleChoiceManager = ({
                         >
                             <div>
                                 <p className="font-medium">
-                                    {questionIndex + 1}. {question.question}
+                                    {question.question}
                                 </p>
                                 <ol className="ml-5 list-[upper-alpha]">
                                     {question.options.map((option, optionIndex) => (
@@ -35,14 +35,14 @@ export const MultipleChoiceManager = ({
                             <button
                                 className="btn btn-error btn-outline btn-sm"
                                 type="button"
-                                aria-label={`Xóa câu hỏi ${questionIndex + 1}`}
+                                aria-label="Xóa câu hỏi"
                                 onClick={() => onRemoveQuestion(questionIndex)}
                             >
                                 Xóa
                             </button>
                         </li>
                     ))}
-                </ol>
+                </ul>
             )}
         </div>
     );

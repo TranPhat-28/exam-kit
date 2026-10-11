@@ -51,13 +51,13 @@ export const ResultSummary = () => {
                         Câu hỏi theo phần
                     </h4>
                     <ul className="mt-1 space-y-2 text-sm">
-                        {sections.map((section, index) => (
+                        {sections.map((section) => (
                             <li
                                 className="flex justify-between gap-4 border-b border-base-300 pb-2"
                                 key={section.id}
                             >
                                 <span className="min-w-0">
-                                    {index + 1}. {section.content.instruction}
+                                    {section.content.instruction}
                                     <span className="ml-2 text-base-content/60">
                                         {sectionTypeLabels[section.content.type]}
                                     </span>

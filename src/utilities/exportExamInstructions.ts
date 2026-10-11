@@ -22,12 +22,12 @@ export const exportExamInstructions = async (
             ? (canvasContext.measureText(text).width * 2.54) / 96
             : text.length * 0.22;
 
-    const content = sections.flatMap((section, sectionIndex) => {
+    const content = sections.flatMap((section) => {
         const paragraphs = [
             new Paragraph({
                 children: [
                     new TextRun({
-                        text: `${sectionIndex + 1}. ${section.content.instruction}`,
+                        text: section.content.instruction,
                         font: "Times New Roman",
                         bold: true,
                         size: 24,
@@ -52,25 +52,25 @@ export const exportExamInstructions = async (
             );
         }
 
-        section.content.questions.forEach((question, questionIndex) => {
-            const questionText =
-                "question" in question
-                    ? `Câu ${questionIndex + 1}. ${question.question}`
-                    : `Câu ${questionIndex + 1}.`;
-
-            paragraphs.push(
-                new Paragraph({
-                    children: [
-                        new TextRun({
-                            text: questionText,
-                            font: "Times New Roman",
-                            bold: true,
-                            size: 24,
-                        }),
-                    ],
-                    spacing: { before: 120, after: 60 },
-                }),
-            );
+        section.content.questions.forEach((question) => {
+            if (
+                "question" in question &&
+                typeof question.question === "string"
+            ) {
+                paragraphs.push(
+                    new Paragraph({
+                        children: [
+                            new TextRun({
+                                text: question.question,
+                                font: "Times New Roman",
+                                bold: true,
+                                size: 24,
+                            }),
+                        ],
+                        spacing: { before: 120, after: 60 },
+                    }),
+                );
+            }
 
             const answerOptions = question.options.map(
                 (option, optionIndex) =>

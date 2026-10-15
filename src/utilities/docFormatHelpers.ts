@@ -1,3 +1,5 @@
+export const A4_PAPER_WIDTH_CENTIMETERS = 21;
+
 export const centimetersToTwips = (centimeters: number) =>
     Math.round((centimeters * 1440) / 2.54);
 
@@ -9,6 +11,19 @@ export const measureTextInCentimeters = (
         ? (canvasContext.measureText(text).width * 2.54) / 96
         : text.length * 0.22;
 
-export const padDottedPlaceholderToEndOfPrefix = (prefix: string) => {
-    return `${prefix} ...............`;
+export const padDottedPlaceholderToEndOfPrefix = (
+    prefix: string,
+    addColonDelimiter: boolean = false,
+) => {
+    return addColonDelimiter
+        ? `${prefix}: ...............`
+        : `${prefix} ...............`;
+};
+
+export const joinPrefixWithValue = (
+    prefix: string,
+    value: string,
+    addColonDelimiter: boolean = false,
+) => {
+    return addColonDelimiter ? `${prefix}: ${value}` : `${prefix} ${value}`;
 };

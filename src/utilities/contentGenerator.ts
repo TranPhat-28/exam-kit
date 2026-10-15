@@ -1,17 +1,19 @@
 import type { Paragraph } from "docx";
+import { CONSTANTS } from "../constants/strings";
 import type {
     ExamSection,
     HeaderTextSettings,
 } from "../store/types/examContentSlice/types";
 import type { LayoutSettingsState } from "../store/types/layoutSettingsSlice/types";
+import { dottedLineFillRatios } from "../types/GenericType";
 import type { HeaderType } from "../types/HeaderType";
+import { SectionType } from "../types/SectionType";
 import {
+    A4_PAPER_WIDTH_CENTIMETERS,
     centimetersToTwips,
+    joinPrefixWithValue,
     measureTextInCentimeters,
 } from "./docFormatHelpers";
-import { SectionType } from "../types/SectionType";
-import { dottedLineFillRatios } from "../types/GenericType";
-import { CONSTANTS } from "../constants/strings";
 
 export const generateHeader = (
     docx: typeof import("docx"),
@@ -32,6 +34,8 @@ export const generateHeader = (
         TextRun,
         WidthType,
     } = docx;
+
+    // Paragraph creation helper
     const makeParagraph = (
         text: string,
         options: {
@@ -56,8 +60,13 @@ export const generateHeader = (
             spacing: options.spacing,
             indent: options.indent,
         });
+
     const contentWidthCentimeters =
-        21 - layoutSettings.margins.left - layoutSettings.margins.right;
+        A4_PAPER_WIDTH_CENTIMETERS -
+        layoutSettings.margins.left -
+        layoutSettings.margins.right;
+
+    // Dot-leading tab stop creation helper
     const makeDottedLine = (
         label: string,
         fillTo: keyof typeof dottedLineFillRatios = "end",
@@ -87,8 +96,8 @@ export const generateHeader = (
 
     if (headerType === "simple") {
         return [
-            makeParagraph("Họ tên: ........................"),
-            makeParagraph("Lớp: .............................."),
+            makeDottedLine(CONSTANTS.exam.header.prefixes.studentName, "1/3"),
+            makeDottedLine(CONSTANTS.exam.header.prefixes.className, "1/3"),
             makeParagraph("BÀI TẬP", {
                 alignment: AlignmentType.CENTER,
                 bold: true,
@@ -103,7 +112,9 @@ export const generateHeader = (
         left: { style: BorderStyle.SINGLE, size: 4, color: "000000" },
         right: { style: BorderStyle.SINGLE, size: 4, color: "000000" },
     };
+
     const cellMargins = { top: 120, bottom: 120, left: 160, right: 160 };
+
     const officialLabelTable = new Table({
         width: { size: 80, type: WidthType.PERCENTAGE },
         alignment: AlignmentType.CENTER,
@@ -114,16 +125,20 @@ export const generateHeader = (
                         borders: cellBorders,
                         margins: { top: 80, bottom: 80, left: 120, right: 120 },
                         children: [
-                            makeParagraph("ĐỀ CHÍNH THỨC", {
-                                alignment: AlignmentType.CENTER,
-                                bold: true,
-                            }),
+                            makeParagraph(
+                                CONSTANTS.exam.header.fixedValues.official,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    bold: true,
+                                },
+                            ),
                         ],
                     }),
                 ],
             }),
         ],
     });
+
     const headerTable = new Table({
         width: { size: 100, type: WidthType.PERCENTAGE },
         rows: [
@@ -135,18 +150,20 @@ export const generateHeader = (
                         margins: cellMargins,
                         children: [
                             makeParagraph(
-                                CONSTANTS.exam.header.prefixes
-                                    .educationAuthority +
-                                    " " +
+                                joinPrefixWithValue(
+                                    CONSTANTS.exam.header.prefixes
+                                        .educationAuthority,
                                     headerText.educationAuthorityName,
+                                ),
                                 {
                                     alignment: AlignmentType.CENTER,
                                 },
                             ),
                             makeParagraph(
-                                CONSTANTS.exam.header.prefixes.school +
-                                    " " +
+                                joinPrefixWithValue(
+                                    CONSTANTS.exam.header.prefixes.school,
                                     headerText.schoolName,
+                                ),
                                 {
                                     alignment: AlignmentType.CENTER,
                                     bold: true,
@@ -162,35 +179,42 @@ export const generateHeader = (
                         margins: cellMargins,
                         children: [
                             makeParagraph(
-                                CONSTANTS.exam.header.prefixes.examTitle +
-                                    " " +
+                                joinPrefixWithValue(
+                                    CONSTANTS.exam.header.prefixes.examTitle,
                                     headerText.examTitle,
+                                ),
                                 {
                                     alignment: AlignmentType.CENTER,
                                     bold: true,
                                 },
                             ),
                             makeParagraph(
-                                CONSTANTS.exam.header.prefixes.academicYear +
-                                    " " +
+                                joinPrefixWithValue(
+                                    CONSTANTS.exam.header.prefixes.academicYear,
                                     headerText.academicYear,
+                                    true,
+                                ),
                                 {
                                     alignment: AlignmentType.CENTER,
                                 },
                             ),
                             makeParagraph(
-                                CONSTANTS.exam.header.prefixes.subject +
-                                    " " +
+                                joinPrefixWithValue(
+                                    CONSTANTS.exam.header.prefixes.subject,
                                     headerText.subject,
+                                    true,
+                                ),
                                 {
                                     alignment: AlignmentType.CENTER,
                                     spacing: { after: 160 },
                                 },
                             ),
                             makeParagraph(
-                                CONSTANTS.exam.header.prefixes.duration +
-                                    " " +
+                                joinPrefixWithValue(
+                                    CONSTANTS.exam.header.prefixes.duration,
                                     headerText.duration,
+                                    true,
+                                ),
                                 {
                                     alignment: AlignmentType.CENTER,
                                     italics: true,
@@ -214,6 +238,7 @@ export const generateHeader = (
             }),
         ],
     });
+
     const examCodeTable = new Table({
         width: { size: 100, type: WidthType.PERCENTAGE },
         rows: [

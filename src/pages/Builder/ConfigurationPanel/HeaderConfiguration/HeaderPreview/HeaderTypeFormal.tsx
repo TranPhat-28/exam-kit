@@ -30,17 +30,20 @@ export const HeaderTypeFormal = () => {
                     <p className="font-semibold">
                         {padDottedPlaceholderToEndOfPrefix(
                             CONSTANTS.exam.header.prefixes.academicYear,
+                            true,
                         )}
                     </p>
                     <p className="mb-4">
                         {padDottedPlaceholderToEndOfPrefix(
                             CONSTANTS.exam.header.prefixes.subject,
+                            true,
                         )}
                     </p>
 
                     <p className="text-xs italic">
                         {padDottedPlaceholderToEndOfPrefix(
                             CONSTANTS.exam.header.prefixes.duration,
+                            true,
                         )}
                     </p>
                     <p className="text-xs italic">
@@ -65,16 +68,19 @@ export const HeaderTypeFormal = () => {
                 <p>
                     {padDottedPlaceholderToEndOfPrefix(
                         CONSTANTS.exam.header.prefixes.studentName,
+                        true,
                     )}
                 </p>
                 <p>
                     {padDottedPlaceholderToEndOfPrefix(
                         CONSTANTS.exam.header.prefixes.studentNumber,
+                        true,
                     )}
                 </p>
                 <p>
                     {padDottedPlaceholderToEndOfPrefix(
                         CONSTANTS.exam.header.prefixes.className,
+                        true,
                     )}
                 </p>
             </div>

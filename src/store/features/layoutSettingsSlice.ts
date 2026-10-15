@@ -9,10 +9,10 @@ const initialState: LayoutSettingsState = {
     fontFamily: "Times New Roman",
     fontSize: 12,
     margins: {
-        top: 2.54,
-        bottom: 2.54,
-        left: 2.54,
-        right: 2.54,
+        top: 2,
+        bottom: 2,
+        left: 2,
+        right: 2,
     },
     multipleChoiceOptionOffsets: [0.5, 4.5, 8.5, 12.5],
 };

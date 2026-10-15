@@ -5,6 +5,7 @@ import { ResultSummary } from "./ResultSummary";
 
 export const ActionsPanel = () => {
     const sections = useAppSelector((state) => state.ExamContent.sections);
+    const headerType = useAppSelector((state) => state.ExamContent.headerType);
     const layoutSettings = useAppSelector((state) => state.LayoutSettings);
 
     return (
@@ -17,7 +18,11 @@ export const ActionsPanel = () => {
             <button
                 className="btn btn-primary mt-4"
                 onClick={() =>
-                    void exportExamInstructions(sections, layoutSettings)
+                    void exportExamInstructions(
+                        sections,
+                        layoutSettings,
+                        headerType,
+                    )
                 }
             >
                 Xuất file DOCX

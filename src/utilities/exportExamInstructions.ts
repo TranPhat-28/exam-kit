@@ -1,16 +1,245 @@
 import type { ExamSection } from "../store/types";
 import type { LayoutSettingsState } from "../store/layoutSettingsSlice";
 import { SectionType } from "../types/SectionType";
+import type { HeaderType } from "../types/HeaderType";
 
 const centimetersToTwips = (centimeters: number) =>
     Math.round((centimeters * 1440) / 2.54);
 
+const generateHeader = (
+    headerType: HeaderType,
+    docx: typeof import("docx"),
+    layoutSettings: LayoutSettingsState,
+) => {
+    const {
+        AlignmentType,
+        BorderStyle,
+        LeaderType,
+        Paragraph,
+        Tab,
+        TabStopType,
+        Table,
+        TableCell,
+        TableRow,
+        TextRun,
+        WidthType,
+    } = docx;
+    const makeParagraph = (
+        text: string,
+        options: {
+            alignment?: (typeof AlignmentType)[keyof typeof AlignmentType];
+            bold?: boolean;
+            italics?: boolean;
+            size?: number;
+            spacing?: { before?: number; after?: number };
+            indent?: { left?: number; right?: number };
+        } = {},
+    ) =>
+        new Paragraph({
+            children: [
+                new TextRun({
+                    text,
+                    font: "Times New Roman",
+                    size: options.size ?? 24,
+                    bold: options.bold,
+                    italics: options.italics,
+                }),
+            ],
+            alignment: options.alignment,
+            spacing: options.spacing,
+            indent: options.indent,
+        });
+    const dottedLineFillRatios = {
+        end: 1,
+        "1/3": 1 / 3,
+        "1/2": 1 / 2,
+        "3/4": 3 / 4,
+    } as const;
+    const contentWidthCentimeters =
+        21 - layoutSettings.margins.left - layoutSettings.margins.right;
+    const makeDottedLine = (
+        label: string,
+        fillTo: keyof typeof dottedLineFillRatios = "end",
+    ) =>
+        new Paragraph({
+            children: [
+                new TextRun({
+                    children: [label, new Tab()],
+                    font: "Times New Roman",
+                    size: 24,
+                }),
+            ],
+            tabStops: [
+                {
+                    type: TabStopType.RIGHT,
+                    position: centimetersToTwips(
+                        contentWidthCentimeters * dottedLineFillRatios[fillTo],
+                    ),
+                    leader: LeaderType.DOT,
+                },
+            ],
+        });
+
+    if (headerType === "none") {
+        return [];
+    }
+
+    if (headerType === "simple") {
+        return [
+            makeParagraph("Họ tên: ........................"),
+            makeParagraph("Lớp: .............................."),
+            makeParagraph("BÀI TẬP", {
+                alignment: AlignmentType.CENTER,
+                bold: true,
+                size: 28,
+                spacing: { before: 240, after: 240 },
+            }),
+        ];
+    }
+
+    const cellBorders = {
+        top: { style: BorderStyle.SINGLE, size: 4, color: "000000" },
+        bottom: { style: BorderStyle.SINGLE, size: 4, color: "000000" },
+        left: { style: BorderStyle.SINGLE, size: 4, color: "000000" },
+        right: { style: BorderStyle.SINGLE, size: 4, color: "000000" },
+    };
+    const cellMargins = { top: 120, bottom: 120, left: 160, right: 160 };
+    const officialLabelTable = new Table({
+        width: { size: 80, type: WidthType.PERCENTAGE },
+        alignment: AlignmentType.CENTER,
+        rows: [
+            new TableRow({
+                children: [
+                    new TableCell({
+                        borders: cellBorders,
+                        margins: { top: 80, bottom: 80, left: 120, right: 120 },
+                        children: [
+                            makeParagraph("ĐỀ CHÍNH THỨC", {
+                                alignment: AlignmentType.CENTER,
+                                bold: true,
+                            }),
+                        ],
+                    }),
+                ],
+            }),
+        ],
+    });
+    const headerTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+            new TableRow({
+                children: [
+                    new TableCell({
+                        width: { size: 40, type: WidthType.PERCENTAGE },
+                        borders: cellBorders,
+                        margins: cellMargins,
+                        children: [
+                            makeParagraph("SỞ GIÁO DỤC VÀ ĐÀO TẠO", {
+                                alignment: AlignmentType.CENTER,
+                            }),
+                            makeParagraph("TRƯỜNG: ....................", {
+                                alignment: AlignmentType.CENTER,
+                                bold: true,
+                                spacing: { after: 160 },
+                            }),
+                            officialLabelTable,
+                        ],
+                    }),
+                    new TableCell({
+                        width: { size: 60, type: WidthType.PERCENTAGE },
+                        borders: cellBorders,
+                        margins: cellMargins,
+                        children: [
+                            makeParagraph("ĐỀ KIỂM TRA HỌC KÌ", {
+                                alignment: AlignmentType.CENTER,
+                                bold: true,
+                            }),
+                            makeParagraph("Năm học: ...........", {
+                                alignment: AlignmentType.CENTER,
+                            }),
+                            makeParagraph("Môn: ........................", {
+                                alignment: AlignmentType.CENTER,
+                                spacing: { after: 160 },
+                            }),
+                            makeParagraph("Thời gian làm bài: ........ phút", {
+                                alignment: AlignmentType.CENTER,
+                                italics: true,
+                                spacing: { before: 160 },
+                                indent: {
+                                    left: centimetersToTwips(0.8),
+                                    right: centimetersToTwips(0.8),
+                                },
+                            }),
+                            makeParagraph("(Không tính thời gian phát đề)", {
+                                alignment: AlignmentType.CENTER,
+                                italics: true,
+                            }),
+                        ],
+                    }),
+                ],
+            }),
+        ],
+    });
+    const examCodeTable = new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+            new TableRow({
+                children: [
+                    new TableCell({
+                        width: { size: 75, type: WidthType.PERCENTAGE },
+                        borders: {
+                            top: { style: BorderStyle.NIL },
+                            bottom: { style: BorderStyle.NIL },
+                            left: { style: BorderStyle.NIL },
+                            right: { style: BorderStyle.NIL },
+                        },
+                        children: [makeParagraph("")],
+                    }),
+                    new TableCell({
+                        width: { size: 20, type: WidthType.PERCENTAGE },
+                        borders: cellBorders,
+                        margins: cellMargins,
+                        children: [
+                            makeParagraph("Mã đề", {
+                                alignment: AlignmentType.CENTER,
+                                bold: true,
+                            }),
+                        ],
+                    }),
+                    new TableCell({
+                        width: { size: 5, type: WidthType.PERCENTAGE },
+                        borders: {
+                            top: { style: BorderStyle.NIL },
+                            bottom: { style: BorderStyle.NIL },
+                            left: { style: BorderStyle.NIL },
+                            right: { style: BorderStyle.NIL },
+                        },
+                        children: [makeParagraph("")],
+                    }),
+                ],
+            }),
+        ],
+    });
+
+    return [
+        headerTable,
+        makeParagraph("", {
+            size: 4,
+        }),
+        examCodeTable,
+        makeDottedLine("Họ và tên:", "1/3"),
+        makeDottedLine("Số báo danh:", "1/3"),
+        makeDottedLine("Lớp:", "1/3"),
+    ];
+};
+
 export const exportExamInstructions = async (
     sections: ExamSection[],
     layoutSettings: LayoutSettingsState,
+    headerType: HeaderType,
 ) => {
-    const { Document, Packer, Paragraph, TabStopType, TextRun } =
-        await import("docx");
+    const docx = await import("docx");
+    const { Document, Packer, Paragraph, TabStopType, TextRun } = docx;
     const canvas = window.document.createElement("canvas");
     const canvasContext = canvas.getContext("2d");
     if (canvasContext) {
@@ -167,7 +396,10 @@ export const exportExamInstructions = async (
                         },
                     },
                 },
-                children: content.length > 0 ? content : [new Paragraph({})],
+                children: [
+                    ...generateHeader(headerType, docx, layoutSettings),
+                    ...(content.length > 0 ? content : [new Paragraph({})]),
+                ],
             },
         ],
     });

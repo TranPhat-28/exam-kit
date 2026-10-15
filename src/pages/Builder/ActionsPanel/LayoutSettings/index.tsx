@@ -7,8 +7,7 @@ import type {
     FontSize,
 } from "../../../../store/types/layoutSettingsSlice/types";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-
-type MarginSide = "top" | "bottom" | "left" | "right";
+import type { MarginSide } from "../../../../types/GenericType";
 
 const marginFields: { side: MarginSide; label: string }[] = [
     { side: "top", label: "Trên" },

@@ -9,6 +9,7 @@ const sectionTypeLabels: Record<SectionType, string> = {
 
 export const ResultSummary = () => {
     const sections = useAppSelector((state) => state.ExamContent.sections);
+
     const sectionTypeCounts: Record<SectionType, number> = {
         [SectionType.MultipleChoice]: 0,
         [SectionType.ReadingComprehension]: 0,

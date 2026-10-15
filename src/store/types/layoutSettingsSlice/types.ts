@@ -1,4 +1,5 @@
-export type MarginSide = "top" | "bottom" | "left" | "right";
+import type { MarginSide } from "../../../types/GenericType";
+
 export type FontFamily = "Times New Roman" | "Open Sans";
 export type FontSize = 10 | 11 | 12;
 

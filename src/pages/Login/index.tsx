@@ -5,7 +5,7 @@ export const LoginPage = () => {
     return (
         <div className="w-full">
             <img
-                className="w-1/2 mx-auto"
+                className="w-1/3 mx-auto"
                 src="/coming-soon.png"
                 alt="Login is coming soon"
             />

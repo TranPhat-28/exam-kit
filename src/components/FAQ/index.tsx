@@ -1,7 +1,7 @@
 export const FAQ = () => {
     return (
         <>
-            <h3 className="font-bold mb-2">Các câu hỏi thường gặp</h3>
+            <h3 className="font-bold mb-2 text-xl">Các câu hỏi thường gặp</h3>
 
             <div className="collapse collapse-arrow bg-base-100 border border-base-300 mb-2">
                 <input type="checkbox" />

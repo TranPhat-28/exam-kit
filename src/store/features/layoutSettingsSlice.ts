@@ -14,7 +14,7 @@ const initialState: LayoutSettingsState = {
         left: 2,
         right: 2,
     },
-    multipleChoiceOptionOffsets: [0.5, 4.5, 8.5, 12.5],
+    multipleChoiceOptionOffsets: [0.2, 4.6, 9.0, 13.4],
 };
 
 const layoutSettingsSlice = createSlice({

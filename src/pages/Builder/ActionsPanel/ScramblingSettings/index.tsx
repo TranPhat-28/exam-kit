@@ -77,7 +77,7 @@ export const ScramblingSettings = () => {
                                     data-tip={tip}
                                 >
                                     <button
-                                        className="btn btn-circle btn-outline btn-xs"
+                                        className="btn btn-circle btn-xs"
                                         type="button"
                                         aria-label={`Thông tin: ${label}`}
                                     >

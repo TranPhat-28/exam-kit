@@ -8,7 +8,7 @@ function App() {
     return (
         <BrowserRouter>
             <Navbar />
-            <main className="p-6 mx-auto md:max-w-200 lg:max-w-240 xl:max-w-280 2xl:max-w-360">
+            <main className="mx-auto md:max-w-200 lg:max-w-240 xl:max-w-280 2xl:max-w-360">
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/builder" element={<BuilderPage />} />

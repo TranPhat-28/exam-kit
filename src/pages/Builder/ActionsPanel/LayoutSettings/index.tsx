@@ -22,7 +22,7 @@ export const LayoutSettings = () => {
     const settings = useAppSelector((state) => state.LayoutSettings);
 
     return (
-        <section className="mt-4 border-t border-base-300 pt-4">
+        <section className="mt-6 pt-4">
             <h3 className="font-semibold">Cài đặt cách trình bày đề</h3>
             <fieldset className="mt-3">
                 <legend className="mb-2 text-sm font-medium">Kiểu chữ</legend>

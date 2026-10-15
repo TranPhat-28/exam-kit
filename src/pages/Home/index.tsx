@@ -1,7 +1,9 @@
+import { FAQ } from "../../components/FAQ";
+
 export const HomePage = () => {
     return (
         <div className="w-full">
-            <div className="w-full flex px-16">
+            <div className="w-full flex">
                 <div className="flex flex-col gap-2 pt-24 w-full">
                     <h2 className="text-3xl font-bold mb-3">
                         Chào mừng bạn đến với{" "}
@@ -26,6 +28,10 @@ export const HomePage = () => {
                     src="/hero.png"
                     alt="Welcome to Exam Kit"
                 />
+            </div>
+
+            <div className="mt-20 px-28">
+                <FAQ />
             </div>
         </div>
     );

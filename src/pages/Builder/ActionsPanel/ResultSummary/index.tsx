@@ -54,7 +54,7 @@ export const ResultSummary = () => {
                     <ul className="mt-1 space-y-2 text-sm">
                         {sections.map((section) => (
                             <li
-                                className="flex justify-between gap-4 border-b border-base-300 pb-2"
+                                className="flex justify-between gap-4"
                                 key={section.id}
                             >
                                 <span className="min-w-0">

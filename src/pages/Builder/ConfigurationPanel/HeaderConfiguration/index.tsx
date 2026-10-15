@@ -34,7 +34,7 @@ export const HeaderConfiguration = () => {
     );
 
     return (
-        <div className="p-4 border border-base-300 rounded">
+        <div className="p-4 border border-base-300 shadow-md rounded">
             <fieldset>
                 <legend className="text-md font-semibold mb-2">
                     Kiểu tiêu đề

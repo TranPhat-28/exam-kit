@@ -10,7 +10,7 @@ export const ActionsPanel = () => {
     const layoutSettings = useAppSelector((state) => state.LayoutSettings);
 
     return (
-        <div className="p-4 flex-1 border border-base-300 rounded shadow">
+        <div className="p-4 flex-1 bg-base-100 border border-base-300 rounded shadow">
             <h2 className="text-lg font-bold">Hoàn tất và xuất đề</h2>
 
             <ResultSummary />

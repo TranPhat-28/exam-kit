@@ -39,11 +39,11 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                                 }),
                             )
                         }
-                        onRemoveQuestion={(questionIndex) =>
+                        onRemoveQuestion={(questionId) =>
                             dispatch(
                                 removeMultipleChoiceQuestion({
                                     sectionId: data.id,
-                                    questionIndex,
+                                    questionId,
                                 }),
                             )
                         }
@@ -70,11 +70,11 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                                 }),
                             )
                         }
-                        onRemoveQuestion={(questionIndex) =>
+                        onRemoveQuestion={(questionId) =>
                             dispatch(
                                 removeMultipleChoiceQuestion({
                                     sectionId: data.id,
-                                    questionIndex,
+                                    questionId,
                                 }),
                             )
                         }
@@ -92,11 +92,11 @@ export const SectionConfigurationPanel = ({ data }: { data: ExamSection }) => {
                                 }),
                             )
                         }
-                        onRemoveQuestion={(questionIndex) =>
+                        onRemoveQuestion={(questionId) =>
                             dispatch(
                                 removePhoneticMultipleChoiceQuestion({
                                     sectionId: data.id,
-                                    questionIndex,
+                                    questionId,
                                 }),
                             )
                         }

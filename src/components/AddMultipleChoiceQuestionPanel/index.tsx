@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import type { MultipleChoiceQuestion } from "../../types/QuestionType";
 
 interface AddMultipleChoiceQuestionPanelProps {
@@ -20,6 +21,7 @@ export const AddMultipleChoiceQuestionPanel = ({
         }
 
         onAddQuestion({
+            id: uuidv4(),
             question: question.trim(),
             options: options.map((option) => option.trim()),
         });

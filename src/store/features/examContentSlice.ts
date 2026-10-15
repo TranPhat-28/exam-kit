@@ -116,7 +116,7 @@ const examContentSlice = createSlice({
         },
         removeMultipleChoiceQuestion(
             state,
-            action: PayloadAction<{ sectionId: string; questionIndex: number }>,
+            action: PayloadAction<{ sectionId: string; questionId: string }>,
         ) {
             const section = state.sections.find(
                 (item) => item.id === action.payload.sectionId,
@@ -125,14 +125,10 @@ const examContentSlice = createSlice({
             if (
                 section &&
                 (section.content.type === SectionType.MultipleChoice ||
-                    section.content.type ===
-                        SectionType.ReadingComprehension) &&
-                action.payload.questionIndex >= 0 &&
-                action.payload.questionIndex < section.content.questions.length
+                    section.content.type === SectionType.ReadingComprehension)
             ) {
-                section.content.questions.splice(
-                    action.payload.questionIndex,
-                    1,
+                section.content.questions = section.content.questions.filter(
+                    (question) => question.id !== action.payload.questionId,
                 );
             }
         },
@@ -153,20 +149,15 @@ const examContentSlice = createSlice({
         },
         removePhoneticMultipleChoiceQuestion(
             state,
-            action: PayloadAction<{ sectionId: string; questionIndex: number }>,
+            action: PayloadAction<{ sectionId: string; questionId: string }>,
         ) {
             const section = state.sections.find(
                 (item) => item.id === action.payload.sectionId,
             );
 
-            if (
-                section?.content.type === SectionType.PhoneticMultipleChoice &&
-                action.payload.questionIndex >= 0 &&
-                action.payload.questionIndex < section.content.questions.length
-            ) {
-                section.content.questions.splice(
-                    action.payload.questionIndex,
-                    1,
+            if (section?.content.type === SectionType.PhoneticMultipleChoice) {
+                section.content.questions = section.content.questions.filter(
+                    (question) => question.id !== action.payload.questionId,
                 );
             }
         },

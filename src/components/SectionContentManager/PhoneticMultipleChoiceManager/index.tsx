@@ -4,7 +4,7 @@ import type { PhoneticMultipleChoiceQuestion } from "../../../types/QuestionType
 interface PhoneticMultipleChoiceManagerProps {
     questions: PhoneticMultipleChoiceQuestion[];
     onAddQuestion: (question: PhoneticMultipleChoiceQuestion) => void;
-    onRemoveQuestion: (questionIndex: number) => void;
+    onRemoveQuestion: (questionId: string) => void;
 }
 
 export const PhoneticMultipleChoiceManager = ({
@@ -19,10 +19,10 @@ export const PhoneticMultipleChoiceManager = ({
             />
             {questions.length > 0 && (
                 <ul className="mt-3 list-none space-y-2">
-                    {questions.map((question, questionIndex) => (
+                    {questions.map((question) => (
                         <li
                             className="flex items-start justify-between gap-3 rounded border p-3"
-                            key={questionIndex}
+                            key={question.id}
                         >
                             <ol className="ml-5 list-[upper-alpha]">
                                 {question.options.map((option, optionIndex) => (
@@ -33,7 +33,7 @@ export const PhoneticMultipleChoiceManager = ({
                                 className="btn btn-error btn-outline btn-sm"
                                 type="button"
                                 aria-label="Xóa câu hỏi ngữ âm"
-                                onClick={() => onRemoveQuestion(questionIndex)}
+                                onClick={() => onRemoveQuestion(question.id)}
                             >
                                 Xóa
                             </button>

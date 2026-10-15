@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import type { PhoneticMultipleChoiceQuestion } from "../../types/QuestionType";
 
 interface AddPhoneticMultipleChoiceQuestionPanelProps {
@@ -18,7 +19,10 @@ export const AddPhoneticMultipleChoiceQuestionPanel = ({
             return;
         }
 
-        onAddQuestion({ options: options.map((option) => option.trim()) });
+        onAddQuestion({
+            id: uuidv4(),
+            options: options.map((option) => option.trim()),
+        });
         clearDraft();
     };
 

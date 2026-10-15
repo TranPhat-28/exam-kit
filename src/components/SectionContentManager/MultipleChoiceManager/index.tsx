@@ -4,7 +4,7 @@ import type { MultipleChoiceQuestion } from "../../../types/QuestionType";
 interface MultipleChoiceManagerProps {
     questions: MultipleChoiceQuestion[];
     onAddQuestion: (question: MultipleChoiceQuestion) => void;
-    onRemoveQuestion: (questionIndex: number) => void;
+    onRemoveQuestion: (questionId: string) => void;
 }
 
 export const MultipleChoiceManager = ({
@@ -17,10 +17,10 @@ export const MultipleChoiceManager = ({
             <AddMultipleChoiceQuestionPanel onAddQuestion={onAddQuestion} />
             {questions.length > 0 && (
                 <ul className="mt-3 list-none space-y-2">
-                    {questions.map((question, questionIndex) => (
+                    {questions.map((question) => (
                         <li
                             className="flex items-start justify-between gap-3 rounded border p-3"
-                            key={questionIndex}
+                            key={question.id}
                         >
                             <div>
                                 <p className="font-medium">
@@ -38,7 +38,7 @@ export const MultipleChoiceManager = ({
                                 className="btn btn-error btn-outline btn-sm"
                                 type="button"
                                 aria-label="Xóa câu hỏi"
-                                onClick={() => onRemoveQuestion(questionIndex)}
+                                onClick={() => onRemoveQuestion(question.id)}
                             >
                                 Xóa
                             </button>

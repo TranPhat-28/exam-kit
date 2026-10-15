@@ -2,6 +2,7 @@ import { useAppSelector } from "../../../store/hooks";
 import { exportExamInstructions } from "../../../utilities/exportExamInstructions";
 import { LayoutSettings } from "./LayoutSettings";
 import { ResultSummary } from "./ResultSummary";
+import { ScramblingSettings } from "./ScramblingSettings";
 
 export const ActionsPanel = () => {
     const sections = useAppSelector((state) => state.ExamContent.sections);
@@ -15,6 +16,7 @@ export const ActionsPanel = () => {
 
             <ResultSummary />
             <LayoutSettings />
+            <ScramblingSettings />
 
             <button
                 className="btn btn-primary mt-4"

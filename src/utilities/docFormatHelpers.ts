@@ -8,3 +8,7 @@ export const measureTextInCentimeters = (
     canvasContext
         ? (canvasContext.measureText(text).width * 2.54) / 96
         : text.length * 0.22;
+
+export const padDottedPlaceholderToEndOfPrefix = (prefix: string) => {
+    return `${prefix} ...............`;
+};

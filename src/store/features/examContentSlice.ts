@@ -5,10 +5,21 @@ import type {
     PhoneticMultipleChoiceQuestion,
 } from "../../types/QuestionType";
 import { SectionType } from "../../types/SectionType";
-import type { ExamContentState } from "../types/examContentSlice/types";
+import type {
+    ExamContentState,
+    HeaderTextSettings,
+} from "../types/examContentSlice/types";
 
 const initialState: ExamContentState = {
     headerType: "official",
+    headerText: {
+        educationAuthorityName: "",
+        schoolName: "",
+        examTitle: "",
+        academicYear: "",
+        subject: "",
+        duration: "",
+    },
     sections: [],
 };
 
@@ -18,6 +29,15 @@ const examContentSlice = createSlice({
     reducers: {
         updateHeaderType(state, action: PayloadAction<HeaderType>) {
             state.headerType = action.payload;
+        },
+        updateHeaderText(
+            state,
+            action: PayloadAction<{
+                field: keyof HeaderTextSettings;
+                value: string;
+            }>,
+        ) {
+            state.headerText[action.payload.field] = action.payload.value;
         },
         addMultipleChoiceSection(state, action: PayloadAction<string>) {
             state.sections.push({
@@ -160,6 +180,7 @@ const examContentSlice = createSlice({
 
 export const {
     updateHeaderType,
+    updateHeaderText,
     addMultipleChoiceSection,
     addPhoneticMultipleChoiceSection,
     addReadingComprehensionSection,

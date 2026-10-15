@@ -6,7 +6,17 @@ export interface ExamSection {
     content: SectionContent;
 }
 
+export interface HeaderTextSettings {
+    educationAuthorityName: string;
+    schoolName: string;
+    examTitle: string;
+    academicYear: string;
+    subject: string;
+    duration: string;
+}
+
 export interface ExamContentState {
     headerType: HeaderType;
+    headerText: HeaderTextSettings;
     sections: ExamSection[];
 }

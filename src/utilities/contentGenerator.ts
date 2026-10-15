@@ -1,5 +1,8 @@
 import type { Paragraph } from "docx";
-import type { ExamSection } from "../store/types/examContentSlice/types";
+import type {
+    ExamSection,
+    HeaderTextSettings,
+} from "../store/types/examContentSlice/types";
 import type { LayoutSettingsState } from "../store/types/layoutSettingsSlice/types";
 import type { HeaderType } from "../types/HeaderType";
 import {
@@ -8,11 +11,13 @@ import {
 } from "./docFormatHelpers";
 import { SectionType } from "../types/SectionType";
 import { dottedLineFillRatios } from "../types/GenericType";
+import { CONSTANTS } from "../constants/strings";
 
 export const generateHeader = (
     docx: typeof import("docx"),
     headerType: HeaderType,
     layoutSettings: LayoutSettingsState,
+    headerText: HeaderTextSettings,
 ) => {
     const {
         AlignmentType,
@@ -129,14 +134,25 @@ export const generateHeader = (
                         borders: cellBorders,
                         margins: cellMargins,
                         children: [
-                            makeParagraph("SỞ GIÁO DỤC VÀ ĐÀO TẠO", {
-                                alignment: AlignmentType.CENTER,
-                            }),
-                            makeParagraph("TRƯỜNG: ....................", {
-                                alignment: AlignmentType.CENTER,
-                                bold: true,
-                                spacing: { after: 160 },
-                            }),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes
+                                    .educationAuthority +
+                                    " " +
+                                    headerText.educationAuthorityName,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                },
+                            ),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.school +
+                                    " " +
+                                    headerText.schoolName,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    bold: true,
+                                    spacing: { after: 160 },
+                                },
+                            ),
                             officialLabelTable,
                         ],
                     }),
@@ -145,30 +161,53 @@ export const generateHeader = (
                         borders: cellBorders,
                         margins: cellMargins,
                         children: [
-                            makeParagraph("ĐỀ KIỂM TRA HỌC KÌ", {
-                                alignment: AlignmentType.CENTER,
-                                bold: true,
-                            }),
-                            makeParagraph("Năm học: ...........", {
-                                alignment: AlignmentType.CENTER,
-                            }),
-                            makeParagraph("Môn: ........................", {
-                                alignment: AlignmentType.CENTER,
-                                spacing: { after: 160 },
-                            }),
-                            makeParagraph("Thời gian làm bài: ........ phút", {
-                                alignment: AlignmentType.CENTER,
-                                italics: true,
-                                spacing: { before: 160 },
-                                indent: {
-                                    left: centimetersToTwips(0.8),
-                                    right: centimetersToTwips(0.8),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.examTitle +
+                                    " " +
+                                    headerText.examTitle,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    bold: true,
                                 },
-                            }),
-                            makeParagraph("(Không tính thời gian phát đề)", {
-                                alignment: AlignmentType.CENTER,
-                                italics: true,
-                            }),
+                            ),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.academicYear +
+                                    " " +
+                                    headerText.academicYear,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                },
+                            ),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.subject +
+                                    " " +
+                                    headerText.subject,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    spacing: { after: 160 },
+                                },
+                            ),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.duration +
+                                    " " +
+                                    headerText.duration,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    italics: true,
+                                    spacing: { before: 160 },
+                                    indent: {
+                                        left: centimetersToTwips(0.8),
+                                        right: centimetersToTwips(0.8),
+                                    },
+                                },
+                            ),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.durationNote,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    italics: true,
+                                },
+                            ),
                         ],
                     }),
                 ],
@@ -195,10 +234,13 @@ export const generateHeader = (
                         borders: cellBorders,
                         margins: cellMargins,
                         children: [
-                            makeParagraph("Mã đề", {
-                                alignment: AlignmentType.CENTER,
-                                bold: true,
-                            }),
+                            makeParagraph(
+                                CONSTANTS.exam.header.prefixes.examCode,
+                                {
+                                    alignment: AlignmentType.CENTER,
+                                    bold: true,
+                                },
+                            ),
                         ],
                     }),
                     new TableCell({
@@ -222,9 +264,9 @@ export const generateHeader = (
             spacing: { after: 120 },
         }),
         examCodeTable,
-        makeDottedLine("Họ và tên:", "1/3"),
-        makeDottedLine("Số báo danh:", "1/3"),
-        makeDottedLine("Lớp:", "1/3"),
+        makeDottedLine(CONSTANTS.exam.header.prefixes.studentName, "1/3"),
+        makeDottedLine(CONSTANTS.exam.header.prefixes.studentNumber, "1/3"),
+        makeDottedLine(CONSTANTS.exam.header.prefixes.className, "1/3"),
     ];
 };
 

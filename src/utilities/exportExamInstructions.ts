@@ -1,4 +1,7 @@
-import type { ExamSection } from "../store/types/examContentSlice/types";
+import type {
+    ExamSection,
+    HeaderTextSettings,
+} from "../store/types/examContentSlice/types";
 import type { LayoutSettingsState } from "../store/types/layoutSettingsSlice/types";
 import type { HeaderType } from "../types/HeaderType";
 import { generateContent, generateHeader } from "./contentGenerator";
@@ -10,6 +13,7 @@ export const exportExamInstructions = async (
     sections: ExamSection[],
     layoutSettings: LayoutSettingsState,
     headerType: HeaderType,
+    headerText: HeaderTextSettings,
 ) => {
     const docx = await import("docx");
     const { Document, Packer } = docx;
@@ -40,7 +44,12 @@ export const exportExamInstructions = async (
                     },
                 },
                 children: [
-                    ...generateHeader(docx, headerType, layoutSettings),
+                    ...generateHeader(
+                        docx,
+                        headerType,
+                        layoutSettings,
+                        headerText,
+                    ),
                     ...generateContent(
                         docx,
                         sections,

@@ -6,6 +6,7 @@ import { ResultSummary } from "./ResultSummary";
 export const ActionsPanel = () => {
     const sections = useAppSelector((state) => state.ExamContent.sections);
     const headerType = useAppSelector((state) => state.ExamContent.headerType);
+    const headerText = useAppSelector((state) => state.ExamContent.headerText);
     const layoutSettings = useAppSelector((state) => state.LayoutSettings);
 
     return (
@@ -22,6 +23,7 @@ export const ActionsPanel = () => {
                         sections,
                         layoutSettings,
                         headerType,
+                        headerText,
                     )
                 }
             >

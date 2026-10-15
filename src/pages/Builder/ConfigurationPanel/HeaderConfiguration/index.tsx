@@ -1,6 +1,7 @@
 import { updateHeaderType } from "../../../../store/features/examContentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import type { HeaderType } from "../../../../types/HeaderType";
+import { HeaderConfigurationForm } from "./HeaderConfigurationForm";
 import { HeaderPreview } from "./HeaderPreview";
 
 const headerOptions: {
@@ -66,8 +67,12 @@ export const HeaderConfiguration = () => {
                     ))}
                 </div>
             </fieldset>
+
             {selectedHeaderType !== "none" && (
-                <HeaderPreview selectedHeaderType={selectedHeaderType} />
+                <>
+                    <HeaderPreview selectedHeaderType={selectedHeaderType} />
+                    <HeaderConfigurationForm />
+                </>
             )}
         </div>
     );

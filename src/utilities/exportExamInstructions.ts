@@ -17,7 +17,7 @@ export const exportExamInstructions = async (
     const canvasContext = canvas.getContext("2d");
 
     if (canvasContext) {
-        canvasContext.font = '12pt "Times New Roman"';
+        canvasContext.font = `${layoutSettings.fontSize}pt "${layoutSettings.fontFamily}"`;
     }
 
     const document = new Document({

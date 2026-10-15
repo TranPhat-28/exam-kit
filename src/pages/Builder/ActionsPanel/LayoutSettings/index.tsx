@@ -1,4 +1,12 @@
-import { useAppSelector } from "../../../../store/hooks";
+import {
+    updateFontFamily,
+    updateFontSize,
+} from "../../../../store/features/layoutSettingsSlice";
+import type {
+    FontFamily,
+    FontSize,
+} from "../../../../store/types/layoutSettingsSlice/types";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
 type MarginSide = "top" | "bottom" | "left" | "right";
 
@@ -11,6 +19,7 @@ const marginFields: { side: MarginSide; label: string }[] = [
 const optionIndexes = [0, 1, 2, 3] as const;
 
 export const LayoutSettings = () => {
+    const dispatch = useAppDispatch();
     const settings = useAppSelector((state) => state.LayoutSettings);
 
     return (
@@ -25,7 +34,14 @@ export const LayoutSettings = () => {
                         </span>
                         <select
                             className="select select-bordered select-sm w-full"
-                            defaultValue="Times New Roman"
+                            value={settings.fontFamily}
+                            onChange={(event) =>
+                                dispatch(
+                                    updateFontFamily(
+                                        event.currentTarget.value as FontFamily,
+                                    ),
+                                )
+                            }
                         >
                             <optgroup label="Có chân">
                                 <option value="Times New Roman">
@@ -43,7 +59,16 @@ export const LayoutSettings = () => {
                         </span>
                         <select
                             className="select select-bordered select-sm w-full"
-                            defaultValue="12"
+                            value={settings.fontSize}
+                            onChange={(event) =>
+                                dispatch(
+                                    updateFontSize(
+                                        Number(
+                                            event.currentTarget.value,
+                                        ) as FontSize,
+                                    ),
+                                )
+                            }
                         >
                             <option value="10">10</option>
                             <option value="11">11</option>

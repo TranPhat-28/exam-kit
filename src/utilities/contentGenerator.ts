@@ -33,7 +33,6 @@ export const generateHeader = (
             alignment?: (typeof AlignmentType)[keyof typeof AlignmentType];
             bold?: boolean;
             italics?: boolean;
-            size?: number;
             spacing?: { before?: number; after?: number };
             indent?: { left?: number; right?: number };
         } = {},
@@ -42,8 +41,8 @@ export const generateHeader = (
             children: [
                 new TextRun({
                     text,
-                    font: "Times New Roman",
-                    size: options.size ?? 24,
+                    font: layoutSettings.fontFamily,
+                    size: layoutSettings.fontSize * 2,
                     bold: options.bold,
                     italics: options.italics,
                 }),
@@ -62,8 +61,8 @@ export const generateHeader = (
             children: [
                 new TextRun({
                     children: [label, new Tab()],
-                    font: "Times New Roman",
-                    size: 24,
+                    font: layoutSettings.fontFamily,
+                    size: layoutSettings.fontSize * 2,
                 }),
             ],
             tabStops: [
@@ -88,7 +87,6 @@ export const generateHeader = (
             makeParagraph("BÀI TẬP", {
                 alignment: AlignmentType.CENTER,
                 bold: true,
-                size: 28,
                 spacing: { before: 240, after: 240 },
             }),
         ];
@@ -221,7 +219,7 @@ export const generateHeader = (
     return [
         headerTable,
         makeParagraph("", {
-            size: 4,
+            spacing: { after: 120 },
         }),
         examCodeTable,
         makeDottedLine("Họ và tên:", "1/3"),
@@ -244,9 +242,9 @@ export const generateContent = (
                 children: [
                     new TextRun({
                         text: section.content.instruction,
-                        font: "Times New Roman",
+                        font: layoutSettings.fontFamily,
                         bold: true,
-                        size: 24,
+                        size: layoutSettings.fontSize * 2,
                     }),
                 ],
                 spacing: { before: 240, after: 120 },
@@ -259,8 +257,8 @@ export const generateContent = (
                     children: [
                         new TextRun({
                             text: section.content.paragraph,
-                            font: "Times New Roman",
-                            size: 24,
+                            font: layoutSettings.fontFamily,
+                            size: layoutSettings.fontSize * 2,
                         }),
                     ],
                     spacing: { after: 120 },
@@ -278,9 +276,9 @@ export const generateContent = (
                         children: [
                             new TextRun({
                                 text: question.question,
-                                font: "Times New Roman",
+                                font: layoutSettings.fontFamily,
                                 bold: true,
-                                size: 24,
+                                size: layoutSettings.fontSize * 2,
                             }),
                         ],
                         spacing: { before: 120, after: 60 },
@@ -344,8 +342,8 @@ export const generateContent = (
                                             answerOptions[optionIndex],
                                     )
                                     .join("\t"),
-                                font: "Times New Roman",
-                                size: 24,
+                                font: layoutSettings.fontFamily,
+                                size: layoutSettings.fontSize * 2,
                             }),
                         ],
                         indent: {

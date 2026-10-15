@@ -11,7 +11,7 @@ const officialFields: {
     { field: "examTitle", label: "Tiêu đề bài thi" },
     { field: "academicYear", label: "Năm học" },
     { field: "subject", label: "Môn học" },
-    { field: "duration", label: "Thời gian làm bài" },
+    { field: "duration", label: "Thời gian làm bài (kèm đơn vị)" },
 ];
 
 export const HeaderConfigurationForm = () => {
@@ -29,10 +29,16 @@ export const HeaderConfigurationForm = () => {
             <div className="mt-3 grid grid-cols-2 gap-3">
                 {officialFields.map(({ field, label }) => (
                     <label className="form-control" key={field}>
-                        <span className="label-text mb-1 text-sm">{label}</span>
+                        <span className="label-text mb-1 text-sm">
+                            {label} (*)
+                        </span>
                         <input
-                            className="input input-bordered input-sm w-full"
+                            className={`input input-bordered input-sm w-full ${
+                                headerText[field].trim() ? "" : "input-error"
+                            }`}
                             type="text"
+                            required
+                            aria-invalid={!headerText[field].trim()}
                             value={headerText[field]}
                             onChange={(event) =>
                                 dispatch(

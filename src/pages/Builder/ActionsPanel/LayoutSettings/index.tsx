@@ -17,6 +17,42 @@ export const LayoutSettings = () => {
         <section className="mt-4 border-t border-base-300 pt-4">
             <h3 className="font-semibold">Cài đặt cách trình bày đề</h3>
             <fieldset className="mt-3">
+                <legend className="mb-2 text-sm font-medium">Kiểu chữ</legend>
+                <div className="grid grid-cols-2 gap-3">
+                    <label className="form-control">
+                        <span className="label-text mb-1 text-sm">
+                            Phông chữ
+                        </span>
+                        <select
+                            className="select select-bordered select-sm w-full"
+                            defaultValue="Times New Roman"
+                        >
+                            <optgroup label="Có chân">
+                                <option value="Times New Roman">
+                                    Times New Roman
+                                </option>
+                            </optgroup>
+                            <optgroup label="Không chân">
+                                <option value="Open Sans">Open Sans</option>
+                            </optgroup>
+                        </select>
+                    </label>
+                    <label className="form-control">
+                        <span className="label-text mb-1 text-sm">
+                            Cỡ chữ (pt)
+                        </span>
+                        <select
+                            className="select select-bordered select-sm w-full"
+                            defaultValue="12"
+                        >
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset className="mt-3">
                 <legend className="mb-2 text-sm font-medium">
                     Lề trang (cm)
                 </legend>

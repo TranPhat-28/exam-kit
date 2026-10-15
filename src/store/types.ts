@@ -1,4 +1,5 @@
 import type { SectionContent } from "../types/SectionType";
+import type { HeaderType } from "../types/HeaderType";
 
 export interface ExamSection {
     id: string;
@@ -6,5 +7,6 @@ export interface ExamSection {
 }
 
 export interface ExamContentState {
+    headerType: HeaderType;
     sections: ExamSection[];
 }

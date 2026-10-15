@@ -1,6 +1,7 @@
-import { useState } from "react";
 import { HeaderPreview } from "./HeaderPreview";
 import type { HeaderType } from "../../../../types/HeaderType";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { updateHeaderType } from "../../../../store/examContentSlice";
 
 const headerOptions: {
     value: HeaderType;
@@ -26,8 +27,10 @@ const headerOptions: {
 ];
 
 export const HeaderConfiguration = () => {
-    const [selectedHeaderType, setSelectedHeaderType] =
-        useState<HeaderType>("official");
+    const dispatch = useAppDispatch();
+    const selectedHeaderType = useAppSelector(
+        (state) => state.ExamContent.headerType,
+    );
 
     return (
         <div className="p-4 border border-base-300 rounded">
@@ -48,7 +51,7 @@ export const HeaderConfiguration = () => {
                                 value={option.value}
                                 checked={selectedHeaderType === option.value}
                                 onChange={() =>
-                                    setSelectedHeaderType(option.value)
+                                    dispatch(updateHeaderType(option.value))
                                 }
                             />
                             <span>

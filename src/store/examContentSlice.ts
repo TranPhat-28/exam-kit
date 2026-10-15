@@ -1,12 +1,14 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ExamContentState } from "./types";
 import { SectionType } from "../types/SectionType";
+import type { HeaderType } from "../types/HeaderType";
 import type {
     MultipleChoiceQuestion,
     PhoneticMultipleChoiceQuestion,
 } from "../types/QuestionType";
 
 const initialState: ExamContentState = {
+    headerType: "official",
     sections: [],
 };
 
@@ -14,6 +16,9 @@ const examContentSlice = createSlice({
     name: "ExamContent",
     initialState,
     reducers: {
+        updateHeaderType(state, action: PayloadAction<HeaderType>) {
+            state.headerType = action.payload;
+        },
         addMultipleChoiceSection(state, action: PayloadAction<string>) {
             state.sections.push({
                 id: action.payload,
@@ -147,6 +152,7 @@ const examContentSlice = createSlice({
 });
 
 export const {
+    updateHeaderType,
     addMultipleChoiceSection,
     addPhoneticMultipleChoiceSection,
     addReadingComprehensionSection,

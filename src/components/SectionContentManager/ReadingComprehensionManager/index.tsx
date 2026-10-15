@@ -25,7 +25,9 @@ export const ReadingComprehensionManager = ({
                 cols={50}
                 placeholder="Nhập nội dung đoạn văn..."
                 value={paragraph}
-                onChange={(event) => onParagraphChange(event.currentTarget.value)}
+                onChange={(event) =>
+                    onParagraphChange(event.currentTarget.value)
+                }
             />
 
             <p className="mb-2">Câu hỏi:</p>
@@ -42,9 +44,11 @@ export const ReadingComprehensionManager = ({
                                     {question.question}
                                 </p>
                                 <ol className="ml-5 list-[upper-alpha]">
-                                    {question.options.map((option, optionIndex) => (
-                                        <li key={optionIndex}>{option}</li>
-                                    ))}
+                                    {question.options.map(
+                                        (option, optionIndex) => (
+                                            <li key={optionIndex}>{option}</li>
+                                        ),
+                                    )}
                                 </ol>
                             </div>
                             <button

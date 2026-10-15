@@ -27,9 +27,11 @@ export const MultipleChoiceManager = ({
                                     {question.question}
                                 </p>
                                 <ol className="ml-5 list-[upper-alpha]">
-                                    {question.options.map((option, optionIndex) => (
-                                        <li key={optionIndex}>{option}</li>
-                                    ))}
+                                    {question.options.map(
+                                        (option, optionIndex) => (
+                                            <li key={optionIndex}>{option}</li>
+                                        ),
+                                    )}
                                 </ol>
                             </div>
                             <button

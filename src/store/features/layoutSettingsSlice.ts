@@ -30,6 +30,5 @@ const layoutSettingsSlice = createSlice({
     },
 });
 
-export const { updateFontFamily, updateFontSize } =
-    layoutSettingsSlice.actions;
+export const { updateFontFamily, updateFontSize } = layoutSettingsSlice.actions;
 export default layoutSettingsSlice.reducer;

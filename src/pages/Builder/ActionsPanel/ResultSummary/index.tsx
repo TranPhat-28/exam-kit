@@ -59,7 +59,11 @@ export const ResultSummary = () => {
                                 <span className="min-w-0">
                                     {section.content.instruction}
                                     <span className="ml-2 text-base-content/60">
-                                        {sectionTypeLabels[section.content.type]}
+                                        {
+                                            sectionTypeLabels[
+                                                section.content.type
+                                            ]
+                                        }
                                     </span>
                                 </span>
                                 <span className="shrink-0 font-medium">

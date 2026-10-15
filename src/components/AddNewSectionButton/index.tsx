@@ -4,7 +4,7 @@ import {
     addMultipleChoiceSection,
     addPhoneticMultipleChoiceSection,
     addReadingComprehensionSection,
-} from "../../store/examContentSlice";
+} from "../../store/features/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { SectionType } from "../../types/SectionType";
 

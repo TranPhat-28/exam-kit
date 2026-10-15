@@ -1,9 +1,4 @@
-type MarginSide = "top" | "bottom" | "left" | "right";
-
-export interface LayoutSettingsState {
-    margins: Record<MarginSide, number>;
-    multipleChoiceOptionOffsets: [number, number, number, number];
-}
+import type { LayoutSettingsState } from "../types/layoutSettingsSlice/types";
 
 const initialState: LayoutSettingsState = {
     margins: {

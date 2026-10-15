@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import examContentReducer from "./examContentSlice";
-import layoutSettingsReducer from "./layoutSettingsSlice";
+import examContentReducer from "./features/examContentSlice";
+import layoutSettingsReducer from "./features/layoutSettingsSlice";
 
 export const store = configureStore({
     reducer: {

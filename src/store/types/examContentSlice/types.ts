@@ -1,5 +1,5 @@
-import type { SectionContent } from "../types/SectionType";
-import type { HeaderType } from "../types/HeaderType";
+import type { HeaderType } from "../../../types/HeaderType";
+import type { SectionContent } from "../../../types/SectionType";
 
 export interface ExamSection {
     id: string;

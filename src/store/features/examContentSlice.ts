@@ -1,11 +1,11 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { ExamContentState } from "./types";
-import { SectionType } from "../types/SectionType";
-import type { HeaderType } from "../types/HeaderType";
+import type { HeaderType } from "../../types/HeaderType";
 import type {
     MultipleChoiceQuestion,
     PhoneticMultipleChoiceQuestion,
-} from "../types/QuestionType";
+} from "../../types/QuestionType";
+import { SectionType } from "../../types/SectionType";
+import type { ExamContentState } from "../types/examContentSlice/types";
 
 const initialState: ExamContentState = {
     headerType: "official",
@@ -105,11 +105,15 @@ const examContentSlice = createSlice({
             if (
                 section &&
                 (section.content.type === SectionType.MultipleChoice ||
-                    section.content.type === SectionType.ReadingComprehension) &&
+                    section.content.type ===
+                        SectionType.ReadingComprehension) &&
                 action.payload.questionIndex >= 0 &&
                 action.payload.questionIndex < section.content.questions.length
             ) {
-                section.content.questions.splice(action.payload.questionIndex, 1);
+                section.content.questions.splice(
+                    action.payload.questionIndex,
+                    1,
+                );
             }
         },
         addPhoneticMultipleChoiceQuestion(
@@ -140,7 +144,10 @@ const examContentSlice = createSlice({
                 action.payload.questionIndex >= 0 &&
                 action.payload.questionIndex < section.content.questions.length
             ) {
-                section.content.questions.splice(action.payload.questionIndex, 1);
+                section.content.questions.splice(
+                    action.payload.questionIndex,
+                    1,
+                );
             }
         },
         removeSection(state, action: PayloadAction<string>) {

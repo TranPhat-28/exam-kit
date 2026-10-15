@@ -1,19 +1,19 @@
 import { useState } from "react";
-import type { ExamSection } from "../../store/types";
-import { SectionType } from "../../types/SectionType";
 import {
     addMultipleChoiceQuestion,
     addPhoneticMultipleChoiceQuestion,
-    removeSection,
     removeMultipleChoiceQuestion,
     removePhoneticMultipleChoiceQuestion,
+    removeSection,
     updateReadingComprehensionParagraph,
     updateSectionInstruction,
-} from "../../store/examContentSlice";
+} from "../../store/features/examContentSlice";
 import { useAppDispatch } from "../../store/hooks";
+import type { ExamSection } from "../../store/types/examContentSlice/types";
+import { SectionType } from "../../types/SectionType";
 import { MultipleChoiceManager } from "../SectionContentManager/MultipleChoiceManager";
-import { ReadingComprehensionManager } from "../SectionContentManager/ReadingComprehensionManager";
 import { PhoneticMultipleChoiceManager } from "../SectionContentManager/PhoneticMultipleChoiceManager";
+import { ReadingComprehensionManager } from "../SectionContentManager/ReadingComprehensionManager";
 
 const sectionTypeLabels: Record<SectionType, string> = {
     [SectionType.MultipleChoice]: "Multiple choice",

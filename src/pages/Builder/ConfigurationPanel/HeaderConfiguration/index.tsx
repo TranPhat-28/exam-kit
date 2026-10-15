@@ -1,7 +1,7 @@
-import { HeaderPreview } from "./HeaderPreview";
-import type { HeaderType } from "../../../../types/HeaderType";
+import { updateHeaderType } from "../../../../store/features/examContentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { updateHeaderType } from "../../../../store/examContentSlice";
+import type { HeaderType } from "../../../../types/HeaderType";
+import { HeaderPreview } from "./HeaderPreview";
 
 const headerOptions: {
     value: HeaderType;

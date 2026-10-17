@@ -1,9 +1,12 @@
-import { updateHeaderText } from "../../store/features/examContentSlice";
+import { updateOfficialHeaderText } from "../../store/features/examContentSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import type { HeaderTextSettings } from "../../store/types/examContentSlice/types";
+import {
+    isOfficialHeaderTextSettings,
+    type OfficialHeaderTextSettings,
+} from "../../store/types/examContentSlice/types";
 
 const officialFields: {
-    field: keyof HeaderTextSettings;
+    field: keyof OfficialHeaderTextSettings;
     label: string;
 }[] = [
     { field: "educationAuthorityName", label: "Sở GD&ĐT" },
@@ -17,6 +20,10 @@ const officialFields: {
 export const OfficialHeaderConfigurationForm = () => {
     const dispatch = useAppDispatch();
     const headerText = useAppSelector((state) => state.ExamContent.headerText);
+
+    if (!isOfficialHeaderTextSettings(headerText)) {
+        return null;
+    }
 
     return (
         <div className="mt-3 grid grid-cols-2 gap-3">
@@ -33,7 +40,7 @@ export const OfficialHeaderConfigurationForm = () => {
                         value={headerText[field]}
                         onChange={(event) =>
                             dispatch(
-                                updateHeaderText({
+                                updateOfficialHeaderText({
                                     field,
                                     value: event.currentTarget.value,
                                 }),

@@ -1,29 +1,42 @@
-import { updateHeaderType } from "../../../../store/features/examContentSlice";
+import {
+    selectOfficialHeaderType,
+    selectSimpleHeaderType,
+    selectNoHeaderType,
+} from "../../../../store/features/examContentSlice";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import type { HeaderType } from "../../../../types/HeaderType";
 import { HeaderConfigurationForm } from "./HeaderConfigurationForm";
 import { HeaderPreview } from "./HeaderPreview";
 
+type HeaderSelectionAction =
+    | typeof selectOfficialHeaderType
+    | typeof selectSimpleHeaderType
+    | typeof selectNoHeaderType;
+
 const headerOptions: {
     value: HeaderType;
     title: string;
     description: string;
+    action: HeaderSelectionAction;
 }[] = [
     {
         value: "official",
         title: "Mẫu chính thức",
         description: "Trang trọng và đầy đủ thông tin - dùng cho kì thi",
+        action: selectOfficialHeaderType,
     },
     {
         value: "simple",
         title: "Mẫu đơn giản",
         description: "Dùng cho bài tập tự luyện hoặc không cần trang trọng",
+        action: selectSimpleHeaderType,
     },
     {
         value: "none",
         title: "Không sử dụng mẫu sẵn",
         description:
             "Nếu các mẫu có sẵn không phù hợp, hãy để trống và tự chèn tiêu đề của bạn vào sau khi đã xuất file.",
+        action: selectNoHeaderType,
     },
 ];
 
@@ -51,9 +64,7 @@ export const HeaderConfiguration = () => {
                                 name="header-type"
                                 value={option.value}
                                 checked={selectedHeaderType === option.value}
-                                onChange={() =>
-                                    dispatch(updateHeaderType(option.value))
-                                }
+                                onChange={() => dispatch(option.action())}
                             />
                             <span>
                                 <span className="block font-medium">

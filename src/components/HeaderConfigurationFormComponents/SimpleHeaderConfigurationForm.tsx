@@ -1,48 +1,75 @@
-import { useState } from "react";
+import { updateSimpleHeaderText } from "../../store/features/examContentSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { isSimpleHeaderTextSettings } from "../../store/types/examContentSlice/types";
 
-const optionalFields = [
-    { id: "student-name", label: "Họ và tên" },
-    { id: "class-name", label: "Lớp" },
-    { id: "extra-description", label: "Mô tả thêm" },
+const optionalFields: {
+    field: "studentName" | "className";
+    label: string;
+}[] = [
+    { field: "studentName", label: "Họ và tên" },
+    { field: "className", label: "Lớp" },
 ];
 
 export const SimpleHeaderConfigurationForm = () => {
-    const [enabledFields, setEnabledFields] = useState<string[]>([]);
+    const dispatch = useAppDispatch();
+    const headerText = useAppSelector((state) => state.ExamContent.headerText);
+
+    if (!isSimpleHeaderTextSettings(headerText)) {
+        return null;
+    }
+
+    const renderOptionalField = (
+        field: "studentName" | "className" | "extraDescription",
+        label: string,
+    ) => {
+        const value = headerText[field];
+        const isEnabled = value !== undefined;
+
+        return (
+            <div className="form-control" key={field}>
+                <label className="flex cursor-pointer items-center gap-2">
+                    <input
+                        className="toggle toggle-primary toggle-sm"
+                        type="checkbox"
+                        checked={isEnabled}
+                        onChange={(event) =>
+                            dispatch(
+                                updateSimpleHeaderText({
+                                    field,
+                                    value: event.currentTarget.checked
+                                        ? ""
+                                        : undefined,
+                                }),
+                            )
+                        }
+                    />
+                    <span className="label-text text-sm">{label}</span>
+                </label>
+                {isEnabled && field === "extraDescription" && (
+                    <input
+                        className="input input-bordered input-sm mt-2 w-full"
+                        type="text"
+                        aria-label={label}
+                        value={value}
+                        onChange={(event) =>
+                            dispatch(
+                                updateSimpleHeaderText({
+                                    field,
+                                    value: event.currentTarget.value,
+                                }),
+                            )
+                        }
+                    />
+                )}
+            </div>
+        );
+    };
 
     return (
         <div className="mt-3 flex flex-col gap-3">
-            {optionalFields.map(({ id, label }) => {
-                const isEnabled = enabledFields.includes(id);
-
-                return (
-                    <div className="form-control" key={id}>
-                        <label className="flex cursor-pointer items-center gap-2">
-                            <input
-                                className="toggle toggle-primary toggle-sm"
-                                type="checkbox"
-                                checked={isEnabled}
-                                onChange={() =>
-                                    setEnabledFields((currentFields) =>
-                                        isEnabled
-                                            ? currentFields.filter(
-                                                  (field) => field !== id,
-                                              )
-                                            : [...currentFields, id],
-                                    )
-                                }
-                            />
-                            <span className="label-text text-sm">{label}</span>
-                        </label>
-                        {isEnabled && (
-                            <input
-                                className="input input-bordered input-sm mt-2 w-full"
-                                type="text"
-                                aria-label={label}
-                            />
-                        )}
-                    </div>
-                );
-            })}
+            {optionalFields.map(({ field, label }) =>
+                renderOptionalField(field, label),
+            )}
 
             <div className="form-control">
                 <label className="flex items-center gap-2">
@@ -64,8 +91,18 @@ export const SimpleHeaderConfigurationForm = () => {
                     className="input input-bordered input-sm mt-2 w-full"
                     type="text"
                     aria-label="Tiêu đề bài tập"
+                    value={headerText.examTitle}
+                    onChange={(event) =>
+                        dispatch(
+                            updateSimpleHeaderText({
+                                field: "examTitle",
+                                value: event.currentTarget.value,
+                            }),
+                        )
+                    }
                 />
             </div>
+            {renderOptionalField("extraDescription", "Mô tả thêm")}
         </div>
     );
 };

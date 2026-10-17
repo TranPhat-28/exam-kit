@@ -1,6 +1,6 @@
 import type {
     ExamSection,
-    HeaderTextSettings,
+    HeaderTextContent,
 } from "../store/types/examContentSlice/types";
 import type { LayoutSettingsState } from "../store/types/layoutSettingsSlice/types";
 import type { HeaderType } from "../types/HeaderType";
@@ -13,7 +13,7 @@ export const exportExamInstructions = async (
     sections: ExamSection[],
     layoutSettings: LayoutSettingsState,
     headerType: HeaderType,
-    headerText: HeaderTextSettings,
+    headerText: HeaderTextContent | undefined,
 ) => {
     const docx = await import("docx");
     const { Document, Packer } = docx;

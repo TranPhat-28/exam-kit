@@ -6,7 +6,7 @@ export interface ExamSection {
     content: SectionContent;
 }
 
-export interface HeaderTextSettings {
+export interface OfficialHeaderTextSettings {
     educationAuthorityName: string;
     schoolName: string;
     examTitle: string;
@@ -15,8 +15,28 @@ export interface HeaderTextSettings {
     duration: string;
 }
 
+export interface SimpleHeaderTextSettings {
+    studentName: string | undefined;
+    className: string | undefined;
+    examTitle: string;
+    extraDescription: string | undefined;
+}
+
+export type HeaderTextContent =
+    OfficialHeaderTextSettings | SimpleHeaderTextSettings;
+
+export const isSimpleHeaderTextSettings = (
+    headerText: HeaderTextContent | undefined,
+): headerText is SimpleHeaderTextSettings =>
+    headerText !== undefined && "extraDescription" in headerText;
+
+export const isOfficialHeaderTextSettings = (
+    headerText: HeaderTextContent | undefined,
+): headerText is OfficialHeaderTextSettings =>
+    headerText !== undefined && "educationAuthorityName" in headerText;
+
 export interface ExamContentState {
     headerType: HeaderType;
-    headerText: HeaderTextSettings;
+    headerText: HeaderTextContent | undefined;
     sections: ExamSection[];
 }

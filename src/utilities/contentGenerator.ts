@@ -1,8 +1,12 @@
 import type { Paragraph } from "docx";
 import { CONSTANTS } from "../constants/strings";
+import {
+    isOfficialHeaderTextSettings,
+    isSimpleHeaderTextSettings,
+} from "../store/types/examContentSlice/types";
 import type {
     ExamSection,
-    HeaderTextSettings,
+    HeaderTextContent,
 } from "../store/types/examContentSlice/types";
 import type { LayoutSettingsState } from "../store/types/layoutSettingsSlice/types";
 import { dottedLineFillRatios } from "../types/GenericType";
@@ -19,7 +23,7 @@ export const generateHeader = (
     docx: typeof import("docx"),
     headerType: HeaderType,
     layoutSettings: LayoutSettingsState,
-    headerText: HeaderTextSettings,
+    headerText: HeaderTextContent | undefined,
 ) => {
     const {
         AlignmentType,
@@ -95,15 +99,53 @@ export const generateHeader = (
     }
 
     if (headerType === "simple") {
+        if (!isSimpleHeaderTextSettings(headerText)) {
+            return [];
+        }
+
         return [
-            makeDottedLine(CONSTANTS.exam.header.prefixes.studentName, "1/3"),
-            makeDottedLine(CONSTANTS.exam.header.prefixes.className, "1/3"),
-            makeParagraph("BÀI TẬP", {
+            ...(headerText.studentName !== undefined
+                ? [
+                      makeDottedLine(
+                          joinPrefixWithValue(
+                              CONSTANTS.exam.header.prefixes.studentName,
+                              headerText.studentName,
+                              true,
+                          ),
+                          "1/3",
+                      ),
+                  ]
+                : []),
+            ...(headerText.className !== undefined
+                ? [
+                      makeDottedLine(
+                          joinPrefixWithValue(
+                              CONSTANTS.exam.header.prefixes.className,
+                              headerText.className,
+                              true,
+                          ),
+                          "1/3",
+                      ),
+                  ]
+                : []),
+            makeParagraph(headerText.examTitle, {
                 alignment: AlignmentType.CENTER,
                 bold: true,
-                spacing: { before: 240, after: 240 },
+                spacing: { before: 240, after: 60 },
             }),
+            ...(headerText.extraDescription !== undefined
+                ? [
+                      makeParagraph(headerText.extraDescription, {
+                          alignment: AlignmentType.CENTER,
+                          italics: true,
+                      }),
+                  ]
+                : []),
         ];
+    }
+
+    if (!isOfficialHeaderTextSettings(headerText)) {
+        return [];
     }
 
     const cellBorders = {

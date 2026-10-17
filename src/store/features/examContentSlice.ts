@@ -1,13 +1,15 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { HeaderType } from "../../types/HeaderType";
 import type {
     MultipleChoiceQuestion,
     PhoneticMultipleChoiceQuestion,
 } from "../../types/QuestionType";
 import { SectionType } from "../../types/SectionType";
-import type {
-    ExamContentState,
-    HeaderTextSettings,
+import {
+    isOfficialHeaderTextSettings,
+    isSimpleHeaderTextSettings,
+    type ExamContentState,
+    type OfficialHeaderTextSettings,
+    type SimpleHeaderTextSettings,
 } from "../types/examContentSlice/types";
 
 const initialState: ExamContentState = {
@@ -27,17 +29,69 @@ const examContentSlice = createSlice({
     name: "ExamContent",
     initialState,
     reducers: {
-        updateHeaderType(state, action: PayloadAction<HeaderType>) {
-            state.headerType = action.payload;
+        selectOfficialHeaderType(state) {
+            state.headerType = "official";
+            state.headerText = {
+                educationAuthorityName: "",
+                schoolName: "",
+                examTitle: "",
+                academicYear: "",
+                subject: "",
+                duration: "",
+            };
         },
-        updateHeaderText(
+        selectSimpleHeaderType(state) {
+            state.headerType = "simple";
+            state.headerText = {
+                studentName: undefined,
+                className: undefined,
+                examTitle: "",
+                extraDescription: undefined,
+            };
+        },
+        selectNoHeaderType(state) {
+            state.headerType = "none";
+            state.headerText = undefined;
+        },
+        updateOfficialHeaderText(
             state,
             action: PayloadAction<{
-                field: keyof HeaderTextSettings;
+                field: keyof OfficialHeaderTextSettings;
                 value: string;
             }>,
         ) {
-            state.headerText[action.payload.field] = action.payload.value;
+            if (isOfficialHeaderTextSettings(state.headerText)) {
+                state.headerText[action.payload.field] = action.payload.value;
+            }
+        },
+        updateSimpleHeaderText(
+            state,
+            action: PayloadAction<
+                {
+                    [Field in keyof SimpleHeaderTextSettings]: {
+                        field: Field;
+                        value: SimpleHeaderTextSettings[Field];
+                    };
+                }[keyof SimpleHeaderTextSettings]
+            >,
+        ) {
+            if (isSimpleHeaderTextSettings(state.headerText)) {
+                switch (action.payload.field) {
+                    case "studentName":
+                        state.headerText.studentName = action.payload.value;
+                        break;
+                    case "className":
+                        state.headerText.className = action.payload.value;
+                        break;
+                    case "extraDescription":
+                        state.headerText.extraDescription =
+                            action.payload.value;
+                        break;
+                    case "examTitle":
+                        state.headerText.examTitle = action.payload.value;
+                        break;
+                }
+            }
         },
         addMultipleChoiceSection(state, action: PayloadAction<string>) {
             state.sections.push({
@@ -170,8 +224,11 @@ const examContentSlice = createSlice({
 });
 
 export const {
-    updateHeaderType,
-    updateHeaderText,
+    selectOfficialHeaderType,
+    selectSimpleHeaderType,
+    selectNoHeaderType,
+    updateOfficialHeaderText,
+    updateSimpleHeaderText,
     addMultipleChoiceSection,
     addPhoneticMultipleChoiceSection,
     addReadingComprehensionSection,

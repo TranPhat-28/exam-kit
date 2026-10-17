@@ -31,7 +31,7 @@ const exportSettingsSlice = createSlice({
         },
         updateSectionNumberingSettings(
             state,
-            action: PayloadAction<SectionNumberingSettingType>,
+            action: PayloadAction<SectionNumberingSettingType | undefined>,
         ) {
             state.sectionNumberingSettings = action.payload;
         },

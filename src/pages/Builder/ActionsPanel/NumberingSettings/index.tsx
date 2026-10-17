@@ -1,8 +1,17 @@
-import { useState } from "react";
+import {
+    updateCrossSectionNumberingEnabled,
+    updateSectionNumberingEnabled,
+    updateSectionNumberingSettings,
+} from "../../../../store/features/exportSettingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
 export const NumberingSettings = () => {
-    const [isSectionNumberingEnabled, setIsSectionNumberingEnabled] =
-        useState(false);
+    const dispatch = useAppDispatch();
+    const {
+        sectionNumberingEnabled,
+        sectionNumberingSettings,
+        crossSectionNumberingEnabled,
+    } = useAppSelector((state) => state.ExportSettings);
 
     return (
         <section className="mt-6 border-t border-base-300 pt-4">
@@ -13,26 +22,40 @@ export const NumberingSettings = () => {
                 <input
                     className="toggle toggle-primary"
                     type="checkbox"
-                    checked={isSectionNumberingEnabled}
-                    onChange={(event) =>
-                        setIsSectionNumberingEnabled(
-                            event.currentTarget.checked,
-                        )
-                    }
+                    checked={sectionNumberingEnabled}
+                    onChange={(event) => {
+                        const enabled = event.currentTarget.checked;
+                        dispatch(updateSectionNumberingEnabled(enabled));
+                        dispatch(
+                            updateSectionNumberingSettings(
+                                enabled ? { numberType: "cardinal" } : undefined,
+                            ),
+                        );
+                    }}
                 />
                 <span className="label-text">Đánh số cho các phần</span>
             </label>
 
-            {isSectionNumberingEnabled && (
+            {sectionNumberingEnabled && sectionNumberingSettings && (
                 <label className="form-control mt-3 max-w-xs">
                     <p className="label-text mb-1 text-sm">Kiểu số</p>
                     <select
                         className="select select-bordered select-sm w-full"
-                        defaultValue="count"
+                        value={sectionNumberingSettings.numberType}
+                        onChange={(event) =>
+                            dispatch(
+                                updateSectionNumberingSettings({
+                                    numberType: event.currentTarget.value as
+                                        | "cardinal"
+                                        | "roman"
+                                        | "letter",
+                                }),
+                            )
+                        }
                     >
-                        <option value="count">Số đếm</option>
+                        <option value="cardinal">Số đếm</option>
                         <option value="roman">Số La Mã</option>
-                        <option value="alphabetic">Chữ cái</option>
+                        <option value="letter">Chữ cái</option>
                     </select>
                 </label>
             )}
@@ -42,6 +65,14 @@ export const NumberingSettings = () => {
                     <input
                         className="checkbox checkbox-primary"
                         type="checkbox"
+                        checked={crossSectionNumberingEnabled}
+                        onChange={(event) =>
+                            dispatch(
+                                updateCrossSectionNumberingEnabled(
+                                    event.currentTarget.checked,
+                                ),
+                            )
+                        }
                     />
                     <span className="label-text">
                         Đánh số liên tục cho các câu hỏi

@@ -3,7 +3,7 @@ import { FAQ } from "../../components/FAQ";
 export const HomePage = () => {
     return (
         <div className="w-full">
-            <div className="w-full flex">
+            <div className="w-full flex px-16">
                 <div className="flex flex-col gap-2 pt-24 w-full">
                     <h2 className="text-3xl font-bold mb-3">
                         Chào mừng bạn đến với{" "}

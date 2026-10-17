@@ -19,6 +19,9 @@ export const HeaderTypeSimple = () => {
                 </p>
             </p>
             <p className="text-base font-semibold mt-4 text-center">BÀI TẬP</p>
+            <p className="text-xs text-center italic">
+                (Mô tả thêm)
+            </p>
         </div>
     );
 };
